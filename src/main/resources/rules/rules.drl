@@ -5,6 +5,7 @@ import com.example.assistente.type.TiposExames
 import com.example.assistente.type.Status
 import java.util.Arrays
 
+//regras para celulas vermelhas
 rule "celula vermelha values"
 	when
 		exame: ExamePacienteDTO(tipoExame == TiposExames.celula_vermelha)
@@ -33,23 +34,123 @@ rule "celula vermelha ideal"
 		exame.setStatus(Status.ideal);
 	end
 		
-rule "celula vermelha mensagem acima"
+rule "celula vermelha mensagem abaixo"
 	when
 		exame: ExamePacienteDTO(tipoExame == TiposExames.celula_vermelha, status == Status.abaixo)
 	then
-		exame.setMessage("Consulte um médico, suas células vermelhas estão baixas");
+		exame.setMessage("Consulte um medico, suas celulas vermelhas estao baixas");
 	end
 		
-rule "celula vermelha mensagem abaixo"
+rule "celula vermelha mensagem acima"
 	when
 		exame: ExamePacienteDTO(tipoExame == TiposExames.celula_vermelha, status == Status.acima)
 	then
-		exame.setMessage("Consulte um médico, suas células vermelhas estão altas");
+		exame.setMessage("Consulte um medico, suas celulas vermelhas estao altas");
 	end
 	
 rule "celula vermelha mensagem ideal"
 	when
 		exame: ExamePacienteDTO(tipoExame == TiposExames.celula_vermelha, status == Status.ideal)
 	then
-		exame.setMessage("Parabéns, suas células vermelhas estão em ordem!");
+		exame.setMessage("Parabens, suas celulas vermelhas estao em ordem!");
+	end
+	
+//regra para ureia e creatina
+rule "ureia e creatina values"
+	when
+		exame: ExamePacienteDTO(tipoExame == TiposExames.ureia_creatinina)
+	then
+		exame.setValues(Arrays.asList(13,43));
+	end
+
+rule "ureia e creatina low"
+	when
+		exame: ExamePacienteDTO(tipoExame == TiposExames.ureia_creatinina, value < 13)
+	then
+		exame.setStatus(Status.abaixo);
+	end
+	
+rule "ureia e creatina high"
+	when
+		exame: ExamePacienteDTO(tipoExame == TiposExames.ureia_creatinina, value > 43)
+	then
+		exame.setStatus(Status.acima);
+	end
+
+rule "ureia e creatina ideal"
+	when
+		exame: ExamePacienteDTO(tipoExame == TiposExames.ureia_creatinina, value < 43, value > 13)
+	then
+		exame.setStatus(Status.ideal);
+	end
+	
+rule "ureia e creatina mensagem abaixo"
+	when
+		exame: ExamePacienteDTO(tipoExame == TiposExames.ureia_creatinina, status == Status.abaixo)
+	then
+		exame.setMessage("Consulte um medico, niveis de ureia e creatina muito baixos");
+	end
+		
+rule "ureia e creatina mensagem acima"
+	when
+		exame: ExamePacienteDTO(tipoExame == TiposExames.ureia_creatinina, status == Status.acima)
+	then
+		exame.setMessage("Consulte um medico, niveis de ureia e creatina muito altos");
+	end
+	
+rule "ureia e creatina mensagem ideal"
+	when
+		exame: ExamePacienteDTO(tipoExame == TiposExames.ureia_creatinina, status == Status.ideal)
+	then
+		exame.setMessage("Parabens, niveis de ureia e creatina detro do ideal");
+	end
+
+//regra para glicose
+rule "glicose values"
+	when
+		exame: ExamePacienteDTO(tipoExame == TiposExames.glicose)
+	then
+		exame.setValues(Arrays.asList(99,126));
+	end
+
+rule "glicose norma"
+	when
+		exame: ExamePacienteDTO(tipoExame == TiposExames.glicose, value < 99)
+	then
+		exame.setStatus(Status.abaixo);
+	end
+	
+rule "glicose pre"
+	when
+		exame: ExamePacienteDTO(tipoExame == TiposExames.glicose, value < 126, value > 99)		
+	then
+		exame.setStatus(Status.acima);
+	end
+
+rule "glicose diabetes"
+	when
+		exame: ExamePacienteDTO(tipoExame == TiposExames.glicose, value > 126)
+	then
+		exame.setStatus(Status.ideal);
+	end
+	
+rule "glicose mensagem normal"
+	when
+		exame: ExamePacienteDTO(tipoExame == TiposExames.glicose, status == Status.abaixo)
+	then
+		exame.setMessage("Parabens, nivel de glicose detro do ideal");
+	end
+		
+rule "glicose mensagem pre"
+	when
+		exame: ExamePacienteDTO(tipoExame == TiposExames.glicose, status == Status.acima)
+	then
+		exame.setMessage("Consulte um medico, nivel de glicose  muito alto");
+	end
+	
+rule "ureia e creatina mensagem ideal"
+	when
+		exame: ExamePacienteDTO(tipoExame == TiposExames.glicose, status == Status.ideal)
+	then
+		exame.setMessage("Consulte um medico, nivel de glicose alarmante");
 	end

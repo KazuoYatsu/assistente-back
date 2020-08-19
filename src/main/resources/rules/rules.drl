@@ -1,0 +1,55 @@
+package rules
+
+import com.example.assistente.dto.ExamePacienteDTO
+import com.example.assistente.type.TiposExames
+import com.example.assistente.type.Status
+import java.util.Arrays
+
+rule "celula vermelha values"
+	when
+		exame: ExamePacienteDTO(tipoExame == TiposExames.celula_vermelha)
+	then
+		exame.setValues(Arrays.asList(100,150));
+	end
+	
+rule "celula vermelha low"
+	when
+		exame: ExamePacienteDTO(tipoExame == TiposExames.celula_vermelha, value < 100)
+	then
+		exame.setStatus(Status.abaixo);
+	end
+	
+rule "celula vermelha high"
+	when
+		exame: ExamePacienteDTO(tipoExame == TiposExames.celula_vermelha, value > 150)
+	then
+		exame.setStatus(Status.acima);
+	end
+	
+rule "celula vermelha ideal"
+	when
+		exame: ExamePacienteDTO(tipoExame == TiposExames.celula_vermelha, value < 150, value > 100)
+	then
+		exame.setStatus(Status.ideal);
+	end
+		
+rule "celula vermelha mensagem acima"
+	when
+		exame: ExamePacienteDTO(tipoExame == TiposExames.celula_vermelha, status == Status.abaixo)
+	then
+		exame.setMessage("Consulte um médico, suas células vermelhas estão baixas");
+	end
+		
+rule "celula vermelha mensagem abaixo"
+	when
+		exame: ExamePacienteDTO(tipoExame == TiposExames.celula_vermelha, status == Status.acima)
+	then
+		exame.setMessage("Consulte um médico, suas células vermelhas estão altas");
+	end
+	
+rule "celula vermelha mensagem ideal"
+	when
+		exame: ExamePacienteDTO(tipoExame == TiposExames.celula_vermelha, status == Status.ideal)
+	then
+		exame.setMessage("Parabéns, suas células vermelhas estão em ordem!");
+	end

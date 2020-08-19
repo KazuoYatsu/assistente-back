@@ -1,7 +1,5 @@
 package com.example.assistente.model.entity;
 
-import java.math.BigDecimal;
-
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;

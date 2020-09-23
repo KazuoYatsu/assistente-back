@@ -15,15 +15,15 @@ public class ExameController {
     private ExameService exameService;
 
     @PostMapping()
-    public List<ExamePacienteDTO> cadastrarExame(
+    public List<ExamePacienteDTO> incluirExames(
             @RequestBody List<ExamePacienteDTO> exames,
-            @RequestAttribute(name = "pacienteId", required = true) int pacienteId) {
-        return null;
+            @RequestAttribute(name = "pacienteId") int pacienteId) {
+        return exameService.incluirExames(exames, pacienteId);
     }
 
     @GetMapping()
     public List<ExamePacienteDTO> obterExame(
-            @RequestAttribute(name = "pacienteId", required = true) int pacienteId) {
-        return null;
+            @RequestAttribute(name = "pacienteId") int pacienteId) {
+        return exameService.listarExames(pacienteId);
     }
 }

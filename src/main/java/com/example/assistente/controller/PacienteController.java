@@ -17,7 +17,7 @@ public class PacienteController {
         return pacienteService.obterPaciente(id);
     }
 
-    @GetMapping
+    @PostMapping
     public PacienteDTO incluirPaciente(@RequestBody PacienteDTO paciente) {
         return pacienteService.incluirPaciente(paciente);
     }

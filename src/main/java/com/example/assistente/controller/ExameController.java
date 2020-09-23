@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @CrossOrigin
-@RequestMapping(value = "api/exame")
+@RequestMapping(value = "/api/exame")
 public class ExameController {
 
     @Autowired

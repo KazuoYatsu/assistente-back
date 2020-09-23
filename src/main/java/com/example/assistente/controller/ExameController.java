@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @CrossOrigin
 @ResponseBody
 @RequestMapping(value = "/api/exame")
@@ -20,13 +20,13 @@ public class ExameController {
     @PostMapping()
     public List<ExamePacienteDTO> incluirExames(
             @RequestBody List<ExamePacienteDTO> exames,
-            @RequestAttribute(name = "pacienteId") int pacienteId) {
+            @RequestParam(name = "idPaciente") int pacienteId) {
         return exameService.incluirExames(exames, pacienteId);
     }
 
     @GetMapping()
     public List<ExamePacienteDTO> obterExame(
-            @RequestAttribute(name = "pacienteId") int pacienteId) {
+            @RequestParam(name = "idPaciente") int pacienteId) {
         return exameService.listarExames(pacienteId);
     }
 }

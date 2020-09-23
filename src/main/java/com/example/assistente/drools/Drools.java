@@ -1,10 +1,11 @@
 package com.example.assistente.drools;
 
+import com.example.assistente.drools.model.ExamesDTO;
+import com.example.assistente.drools.model.ResultadosDTO;
 import com.example.assistente.model.dto.ExamePacienteDTO;
 import com.example.assistente.model.dto.PacienteDTO;
 import com.example.assistente.model.dto.ResultadoDTO;
 import org.kie.api.runtime.KieContainer;
-import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,17 +22,19 @@ public class Drools {
     }
 
     public List<ResultadoDTO> processarExames(List<ExamePacienteDTO> exames, PacienteDTO paciente) {
-        List<ResultadoDTO> resultado = new ArrayList<>();
+        var resultados = new ArrayList<ResultadoDTO>();
+        var resultadosDrools = ResultadosDTO.builder().resultados(resultados).build();
+        var examesDrools = ExamesDTO.builder().exames(exames).build();
 
-        KieSession kieSession = kieContainer.newKieSession("rulesSession");
+        var kieSession = kieContainer.newKieSession("rulesSession");
 
         kieSession.insert(paciente);
-        kieSession.insert(resultado);
-        kieSession.insert(exames);
+        kieSession.insert(resultadosDrools);
+        kieSession.insert(examesDrools);
 
         kieSession.fireAllRules();
         kieSession.dispose();
 
-        return resultado;
+        return resultados;
     }
 }

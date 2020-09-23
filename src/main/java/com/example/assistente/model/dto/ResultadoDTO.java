@@ -2,13 +2,15 @@ package com.example.assistente.model.dto;
 
 import com.example.assistente.model.type.Status;
 import com.example.assistente.model.type.TiposExames;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 
+@Getter
+@Setter
 @Builder
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ResultadoDTO {
     private TiposExames tipoExame;
     private String mensagem;

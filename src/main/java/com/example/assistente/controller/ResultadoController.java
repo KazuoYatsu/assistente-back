@@ -11,7 +11,7 @@ import java.util.List;
 @Controller
 @CrossOrigin
 @ResponseBody
-@RequestMapping(value = "/api/resolutado")
+@RequestMapping(value = "/api/resultado")
 public class ResultadoController {
     @Autowired
     ResultadoService resultadoService;

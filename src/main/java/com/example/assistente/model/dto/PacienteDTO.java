@@ -3,11 +3,13 @@ package com.example.assistente.model.dto;
 import java.time.LocalDate;
 
 import com.example.assistente.model.type.SexoPaciente;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
+@Getter
+@Setter
 @Builder
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class PacienteDTO {
 	private int id;
 	private String nome;

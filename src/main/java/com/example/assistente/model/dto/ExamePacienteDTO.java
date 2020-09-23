@@ -1,11 +1,13 @@
 package com.example.assistente.model.dto;
 
 import com.example.assistente.model.type.TiposExames;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
+@Getter
+@Setter
 @Builder
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ExamePacienteDTO {
 	private int id;
 	private int idPaciente;

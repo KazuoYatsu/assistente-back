@@ -1,0 +1,74 @@
+package com.example.assistente.rules
+
+import com.example.assistente.model.dto.ExamePacienteDTO
+import com.example.assistente.model.dto.PacienteDTO
+import com.example.assistente.model.dto.ResultadoDTO
+import com.example.assistente.drools.model.ExamesDTO
+import com.example.assistente.drools.model.ResultadosDTO
+import com.example.assistente.model.type.TiposExames
+import com.example.assistente.model.type.Status
+import com.example.assistente.model.type.SexoPaciente
+import java.util.Arrays
+
+//regras para celulas vermelhas
+rule "celula vermelha values"
+	when
+	    ResultadosDTO($resultados: resultados)
+	    ExamesDTO($exames: exames)
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.globulos_vermelhos) from $exames
+	then
+        $resultados.add(ResultadoDTO.builder()
+            .values(Arrays.asList(100.0, 150.0))
+            .value($exame.getValue())
+            .tipoExame($exame.getTipoExame())
+            .build());
+	end
+
+rule "celula vermelha low"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.globulos_vermelhos, value < 100) from $resultados
+	then
+		$resultado.setStatus(Status.abaixo);
+	end
+
+rule "celula vermelha high"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.globulos_vermelhos, value > 150) from $resultados
+	then
+		$resultado.setStatus(Status.acima);
+	end
+
+rule "celula vermelha ideal"
+	when
+		ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.globulos_vermelhos, value < 150, value > 100) from $resultados
+	then
+		$resultado.setStatus(Status.ideal);
+	end
+
+rule "celula vermelha mensagem abaixo"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.globulos_vermelhos, status == Status.abaixo) from $resultados
+	then
+		$resultado.setMensagem("Consulte um medico, suas celulas vermelhas estao baixas");
+	end
+
+rule "celula vermelha mensagem acima"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.globulos_vermelhos, status == Status.acima) from $resultados
+	then
+		$resultado.setMensagem("Consulte um medico, suas celulas vermelhas estao altas");
+	end
+
+rule "celula vermelha mensagem ideal"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.globulos_vermelhos, status == Status.ideal) from $resultados
+	then
+		$resultado.setMensagem("Parabens, suas celulas vermelhas estao em ordem!");
+	end
+

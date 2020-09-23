@@ -1,22 +1,22 @@
 package com.example.assistente.model.entity;
 
 import com.example.assistente.model.type.SexoPaciente;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "paciente")
 public class PacienteEntity {
 	@Id
 	@Column
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
 	@Column

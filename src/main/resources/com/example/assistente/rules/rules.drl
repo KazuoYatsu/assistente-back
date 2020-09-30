@@ -71,4 +71,125 @@ rule "celula vermelha mensagem ideal"
 	then
 		$resultado.setMensagem("Parabens, suas celulas vermelhas estao em ordem!");
 	end
+//regras para acido urico
+rule "acido urico values masculino"
+	when
+	    ResultadosDTO($resultados: resultados)
+	    ExamesDTO($exames: exames)
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.acido_urico, sexoPaciente == SexoPaciente.masculino) from $exames
+	then
+        $resultados.add(ResultadoDTO.builder()
+            .values(Arrays.asList(3.4, 7.0))
+            .value($exame.getValue())
+            .tipoExame($exame.getTipoExame())
+            .build());
+	end
 
+rule "acido urico masculino low"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.acido_urico,sexoPaciente == SexoPaciente.masculino, value < 3.4) from $resultados
+	then
+		$resultado.setStatus(Status.abaixo);
+	end
+
+rule "acido urico masculino ideal"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.acido_urico, sexoPaciente == SexoPaciente.masculino, value < 7.0, value > 3.4) from $resultados
+	then
+		$resultado.setStatus(Status.ideal);
+	end
+
+rule "acido urico masculino high"
+	when
+		ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.acido_urico, sexoPaciente == SexoPaciente.masculino, value > 7.0) from $resultados
+	then
+		$resultado.setStatus(Status.acima);
+	end
+
+rule "acido urico masculino abaixo"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.acido_urico, sexoPaciente == SexoPaciente.masculino, status == Status.abaixo) from $resultados
+	then
+		$resultado.setMensagem("Consulte um medico, niveis de acido urico estao baixos");
+	end
+
+rule "acido urico masculino acima"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.acido_urico, sexoPaciente == SexoPaciente.masculino, status == Status.acima) from $resultados
+	then
+		$resultado.setMensagem("Consulte um medico, niveis de acido urico estao altas");
+	end
+
+rule "acido urico masculino ideal"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.acido_urico, sexoPaciente == SexoPaciente.masculino, status == Status.ideal) from $resultados
+	then
+		$resultado.setMensagem("Parabens, niveis de acido urico estao em ordem!");
+	end
+//acido urico feminino
+	rule "acido urico values feminino"
+	when
+	    ResultadosDTO($resultados: resultados)
+	    ExamesDTO($exames: exames)
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.acido_urico, sexoPaciente == SexoPaciente.feminino) from $exames
+	then
+        $resultados.add(ResultadoDTO.builder()
+            .values(Arrays.asList(2.4, 6.0))
+            .value($exame.getValue())
+            .tipoExame($exame.getTipoExame())
+            .build());
+	end
+
+rule "acido urico feminino low"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.acido_urico,sexoPaciente == SexoPaciente.feminino, value < 2.4) from $resultados
+	then
+		$resultado.setStatus(Status.abaixo);
+	end
+
+rule "acido urico feminino ideal"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.acido_urico, sexoPaciente == SexoPaciente.feminino, value < 6.0, value > 2.4) from $resultados
+	then
+		$resultado.setStatus(Status.ideal);
+	end
+
+rule "acido urico feminino high"
+	when
+		ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.acido_urico, sexoPaciente == SexoPaciente.feminino, value > 6.0) from $resultados
+	then
+		$resultado.setStatus(Status.acima);
+	end
+
+rule "acido urico feminino abaixo"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.acido_urico, sexoPaciente == SexoPaciente.feminino, status == Status.abaixo) from $resultados
+	then
+		$resultado.setMensagem("Consulte um medico, niveis de acido urico estao baixos");
+	end
+
+rule "acido urico feminino acima"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.acido_urico, sexoPaciente == SexoPaciente.feminino, status == Status.acima) from $resultados
+	then
+		$resultado.setMensagem("Consulte um medico, niveis de acido urico estao altas");
+	end
+
+rule "acido urico feminino ideal"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.acido_urico, sexoPaciente == SexoPaciente.feminino, status == Status.ideal) from $resultados
+	then
+		$resultado.setMensagem("Parabens, niveis de acido urico estao em ordem!");
+	end

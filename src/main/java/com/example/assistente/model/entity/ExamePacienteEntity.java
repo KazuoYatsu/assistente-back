@@ -26,4 +26,7 @@ public class ExamePacienteEntity {
 
 	@Column
 	private double value;
+
+	@Column
+	private boolean jejum;
 }

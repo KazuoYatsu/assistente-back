@@ -76,7 +76,7 @@ rule "acido urico values masculino"
 	when
 	    ResultadosDTO($resultados: resultados)
 	    ExamesDTO($exames: exames)
-	    PacienteDTO( SexoPaciente == SexoPaciente.masculino)
+	    PacienteDTO( sexo == SexoPaciente.masculino)
 		$exame: ExamePacienteDTO(tipoExame == TiposExames.acido_urico) from $exames
 	then
         $resultados.add(ResultadoDTO.builder()
@@ -91,7 +91,7 @@ rule "acido urico values masculino"
 	when
 	    ResultadosDTO($resultados: resultados)
 	    ExamesDTO($exames: exames)
-	    PacienteDTO( SexoPaciente == SexoPaciente.feminino)
+	    PacienteDTO(sexo == SexoPaciente.feminino)
 		$exame: ExamePacienteDTO(tipoExame == TiposExames.acido_urico) from $exames
 	then
         $resultados.add(ResultadoDTO.builder()
@@ -101,7 +101,7 @@ rule "acido urico values masculino"
             .build());
 	end
 
-rule "acido urico low"
+rule "acido urico low status"
 	when
 	    ResultadosDTO($resultados: resultados)
 		$resultado: ResultadoDTO(tipoExame == TiposExames.acido_urico, value < values[0]) from $resultados
@@ -109,7 +109,7 @@ rule "acido urico low"
 		$resultado.setStatus(Status.abaixo);
 	end
 
-rule "acido urico ideal"
+rule "acido urico ideal status"
 	when
 	    ResultadosDTO($resultados: resultados)
 		$resultado: ResultadoDTO(tipoExame == TiposExames.acido_urico, value < values[1] , value > values[0]) from $resultados
@@ -117,7 +117,7 @@ rule "acido urico ideal"
 		$resultado.setStatus(Status.ideal);
 	end
 
-rule "acido urico high"
+rule "acido urico high status"
 	when
 		ResultadosDTO($resultados: resultados)
 		$resultado: ResultadoDTO(tipoExame == TiposExames.acido_urico, value > values[1]) from $resultados
@@ -154,7 +154,7 @@ rule "trigliceridios jejum values"
 	when
 	    ResultadosDTO($resultados: resultados)
 	    ExamesDTO($exames: exames)
-		$exame: ExamePacienteDTO(tipoExame == TiposExames.trigliceridios, jejum == true) from $exames
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.triglicerideos, jejum == true) from $exames
 	then
         $resultados.add(ResultadoDTO.builder()
             .values(Arrays.asList(150.0))
@@ -167,7 +167,7 @@ rule "trigliceridios jejum values"
 	when
 	    ResultadosDTO($resultados: resultados)
 	    ExamesDTO($exames: exames)
-		$exame: ExamePacienteDTO(tipoExame == TiposExames.trigliceridios, jejum == false) from $exames
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.triglicerideos, jejum == false) from $exames
 	then
         $resultados.add(ResultadoDTO.builder()
             .values(Arrays.asList(175.0))
@@ -179,7 +179,7 @@ rule "trigliceridios jejum values"
 rule "trigliceridios abaixo"
 	when
 	    ResultadosDTO($resultados: resultados)
-		$resultado: ResultadoDTO(tipoExame == TiposExames.trigliceridios, status == Status.abaixo) from $resultados
+		$resultado: ResultadoDTO(tipoExame == TiposExames.triglicerideos, status == Status.abaixo) from $resultados
 	then
 		$resultado.setMensagem("Consulte um medico, niveis de trigliceridios estao baixos");
 	end
@@ -187,7 +187,7 @@ rule "trigliceridios abaixo"
 rule "trigliceridios acima"
 	when
 	    ResultadosDTO($resultados: resultados)
-		$resultado: ResultadoDTO(tipoExame == TiposExames.trigliceridios, status == Status.acima) from $resultados
+		$resultado: ResultadoDTO(tipoExame == TiposExames.triglicerideos, status == Status.acima) from $resultados
 	then
 		$resultado.setMensagem("Consulte um medico, niveis de trigliceridios estao altas");
 	end

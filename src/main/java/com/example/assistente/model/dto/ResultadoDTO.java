@@ -14,7 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 public class ResultadoDTO {
     private TiposExames tipoExame;
-    private SexoPaciente sexo;
     private String mensagem;
     private List<Double> values;
     private Status status;

@@ -13,4 +13,5 @@ public class ExamePacienteDTO {
 	private int idPaciente;
 	private TiposExames tipoExame;
 	private double value;
+	private boolean jejum;
 }

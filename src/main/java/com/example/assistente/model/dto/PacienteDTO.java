@@ -15,4 +15,5 @@ public class PacienteDTO {
 	private String nome;
 	private SexoPaciente sexo;
 	private LocalDate dataNasc;
+	private int idade;
 }

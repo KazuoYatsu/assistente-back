@@ -1,5 +1,7 @@
 package com.example.assistente.rules
 
+import java.time.LocalDate;
+
 import com.example.assistente.model.dto.ExamePacienteDTO
 import com.example.assistente.model.dto.PacienteDTO
 import com.example.assistente.model.dto.ResultadoDTO
@@ -158,6 +160,20 @@ rule "trigliceridios jejum values"
 	then
         $resultados.add(ResultadoDTO.builder()
             .values(Arrays.asList(150.0))
+            .value($exame.getValue())
+            .tipoExame($exame.getTipoExame())
+            .build());
+	end
+	
+	rule "trigliceridios nao jejum values 10 yeas"
+	when
+	    ResultadosDTO($resultados: resultados)
+	    ExamesDTO($exames: exames)
+	    PacienteDTO(dataNasc.getYear().compareTo(LocalDate.now().getYear()) < 10 )
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.triglicerideos, jejum == false) from $exames
+	then
+        $resultados.add(ResultadoDTO.builder()
+            .values(Arrays.asList(175.0))
             .value($exame.getValue())
             .tipoExame($exame.getTipoExame())
             .build());

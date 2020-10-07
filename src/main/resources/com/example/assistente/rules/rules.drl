@@ -173,7 +173,21 @@ rule "trigliceridios jejum values"
 		$exame: ExamePacienteDTO(tipoExame == TiposExames.triglicerideos, jejum == false) from $exames
 	then
         $resultados.add(ResultadoDTO.builder()
-            .values(Arrays.asList(175.0))
+            .values(Arrays.asList(75.0))
+            .value($exame.getValue())
+            .tipoExame($exame.getTipoExame())
+            .build());
+	end
+	
+	rule "trigliceridios jejum values 10 yeas"
+	when
+	    ResultadosDTO($resultados: resultados)
+	    ExamesDTO($exames: exames)
+	    PacienteDTO(dataNasc.getYear().compareTo(LocalDate.now().getYear()) < 10 )
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.triglicerideos, jejum == true) from $exames
+	then
+        $resultados.add(ResultadoDTO.builder()
+            .values(Arrays.asList(85.0))
             .value($exame.getValue())
             .tipoExame($exame.getTipoExame())
             .build());

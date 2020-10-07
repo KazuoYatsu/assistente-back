@@ -17,7 +17,9 @@ rule "idade"
     when
         $paciente: PacienteDTO()
     then
+        System.out.println("idade");
         $paciente.setIdade(Period.between($paciente.getDataNasc(), LocalDate.now()).getYears());
+        System.out.println($paciente.getIdade());
     end
 
 //regras para celulas vermelhas
@@ -39,6 +41,7 @@ rule "celula vermelha low"
 	    ResultadosDTO($resultados: resultados)
 		$resultado: ResultadoDTO(tipoExame == TiposExames.globulos_vermelhos, value < 100) from $resultados
 	then
+	    System.out.println("celula vermelha low");
 		$resultado.setStatus(Status.abaixo);
 	end
 
@@ -167,59 +170,67 @@ rule "trigliceridios jejum values"
 	    ExamesDTO($exames: exames)
 		$exame: ExamePacienteDTO(tipoExame == TiposExames.triglicerideos, jejum == true) from $exames
 	then
+	    System.out.println("trigliceridios jejum values");
         $resultados.add(ResultadoDTO.builder()
             .values(Arrays.asList(150.0))
             .value($exame.getValue())
             .tipoExame($exame.getTipoExame())
             .build());
 	end
+
+	rule "trigliceridios nao jejum values"
+    	when
+    	    ResultadosDTO($resultados: resultados)
+    	    ExamesDTO($exames: exames)
+    		$exame: ExamePacienteDTO(tipoExame == TiposExames.triglicerideos, jejum == false) from $exames
+    	then
+    	    System.out.println("trigliceridios nao jejum values");
+            $resultados.add(ResultadoDTO.builder()
+                .values(Arrays.asList(175.0))
+                .value($exame.getValue())
+                .tipoExame($exame.getTipoExame())
+                .build());
+    	end
 	
-	rule "trigliceridios nao jejum values 10 yeas"
+	rule "trigliceridios nao jejum values 10 years"
 	when
 	    ResultadosDTO($resultados: resultados)
 	    ExamesDTO($exames: exames)
-	    PacienteDTO(idade < 10 )
+	    $paciente: PacienteDTO(idade < 10)
+	    eval($paciente.getIdade() < 10)
 		$exame: ExamePacienteDTO(tipoExame == TiposExames.triglicerideos, jejum == false) from $exames
 	then
+	    System.out.println("trigliceridios nao jejum values 10 years");
         $resultados.add(ResultadoDTO.builder()
             .values(Arrays.asList(75.0))
             .value($exame.getValue())
             .tipoExame($exame.getTipoExame())
             .build());
 	end
-	
-	rule "trigliceridios jejum values 10 yeas"
+
+	rule "trigliceridios jejum values 10 years"
 	when
 	    ResultadosDTO($resultados: resultados)
 	    ExamesDTO($exames: exames)
-	    PacienteDTO(idade < 10 )
+	    $paciente: PacienteDTO(idade < 10)
+        eval($paciente.getIdade() < 10)
 		$exame: ExamePacienteDTO(tipoExame == TiposExames.triglicerideos, jejum == true) from $exames
 	then
+	    System.out.println("trigliceridios jejum values 10 years");
+	    System.out.println($paciente.getIdade());
         $resultados.add(ResultadoDTO.builder()
             .values(Arrays.asList(85.0))
             .value($exame.getValue())
             .tipoExame($exame.getTipoExame())
             .build());
 	end
-	
-	rule "trigliceridios nao jejum values"
-	when
-	    ResultadosDTO($resultados: resultados)
-	    ExamesDTO($exames: exames)
-		$exame: ExamePacienteDTO(tipoExame == TiposExames.triglicerideos, jejum == false) from $exames
-	then
-        $resultados.add(ResultadoDTO.builder()
-            .values(Arrays.asList(175.0))
-            .value($exame.getValue())
-            .tipoExame($exame.getTipoExame())
-            .build());
-	end
-rule "trigliceridios low"
+
+rule "trigliceridios ideal"
 	when
 		ResultadosDTO($resultados: resultados)
-		$resultado: ResultadoDTO(tipoExame == TiposExames.triglicerideos, value < values[0]) from $resultados
+		$resultado: ResultadoDTO(tipoExame == TiposExames.triglicerideos, value <= values[0]) from $resultados
 	then
-		$resultado.setStatus(Status.abaixo);
+		$resultado.setStatus(Status.ideal);
 	end
 
 rule "trigliceridios high"
@@ -233,18 +244,19 @@ rule "trigliceridios high"
 rule "trigliceridios high status"
 	when
 	    ResultadosDTO($resultados: resultados)
-		$resultado: ResultadoDTO(tipoExame == TiposExames.triglicerideos, status == Status.abaixo) from $resultados
+		$resultado: ResultadoDTO(tipoExame == TiposExames.triglicerideos, status == Status.ideal) from $resultados
 	then
-		$resultado.setMensagem("Consulte um medico, niveis de trigliceridios estao baixos");
+		$resultado.setMensagem("Parabens, niveis de trigliceridios estao em ordem!");
 	end
 
-rule "trigliceridios low status"
+rule "trigliceridios ideal status"
 	when
 	    ResultadosDTO($resultados: resultados)
 		$resultado: ResultadoDTO(tipoExame == TiposExames.triglicerideos, status == Status.acima) from $resultados
 	then
-		$resultado.setMensagem("Consulte um medico, niveis de trigliceridios estao altas");
+		$resultado.setMensagem("Consulte um medico, niveis de trigliceridios estão altos");
 	end
+
 //Colesterol HDL
 rule "colesterol hdl values"
 	when

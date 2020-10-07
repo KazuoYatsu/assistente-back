@@ -48,7 +48,7 @@ rule "celula vermelha ideal"
 		$resultado.setStatus(Status.ideal);
 	end
 
-rule "celula vermelha mensagem abaixo"
+rule "celula vermelha high status"
 	when
 	    ResultadosDTO($resultados: resultados)
 		$resultado: ResultadoDTO(tipoExame == TiposExames.globulos_vermelhos, status == Status.abaixo) from $resultados
@@ -56,7 +56,7 @@ rule "celula vermelha mensagem abaixo"
 		$resultado.setMensagem("Consulte um medico, suas celulas vermelhas estao baixas");
 	end
 
-rule "celula vermelha mensagem acima"
+rule "celula vermelha high status"
 	when
 	    ResultadosDTO($resultados: resultados)
 		$resultado: ResultadoDTO(tipoExame == TiposExames.globulos_vermelhos, status == Status.acima) from $resultados
@@ -64,7 +64,7 @@ rule "celula vermelha mensagem acima"
 		$resultado.setMensagem("Consulte um medico, suas celulas vermelhas estao altas");
 	end
 
-rule "celula vermelha mensagem ideal"
+rule "celula vermelha ideal status"
 	when
 	    ResultadosDTO($resultados: resultados)
 		$resultado: ResultadoDTO(tipoExame == TiposExames.globulos_vermelhos, status == Status.ideal) from $resultados
@@ -125,7 +125,7 @@ rule "acido urico high status"
 		$resultado.setStatus(Status.acima);
 	end
 
-rule "acido urico abaixo"
+rule "acido urico high"
 	when
 	    ResultadosDTO($resultados: resultados)
 		$resultado: ResultadoDTO(tipoExame == TiposExames.acido_urico, status == Status.abaixo) from $resultados
@@ -133,7 +133,7 @@ rule "acido urico abaixo"
 		$resultado.setMensagem("Consulte um medico, niveis de acido urico estao baixos");
 	end
 
-rule "acido urico acima"
+rule "acido urico low"
 	when
 	    ResultadosDTO($resultados: resultados)
 		$resultado: ResultadoDTO(tipoExame == TiposExames.acido_urico, status == Status.acima) from $resultados
@@ -175,8 +175,23 @@ rule "trigliceridios jejum values"
             .tipoExame($exame.getTipoExame())
             .build());
 	end
+rule "trigliceridios low"
+	when
+		ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.triglicerideos, value < values[0]) from $resultados
+	then
+		$resultado.setStatus(Status.abaixo);
+	end
 
-rule "trigliceridios abaixo"
+rule "trigliceridios high"
+	when
+		ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.triglicerideos, value > values[0]) from $resultados
+	then
+		$resultado.setStatus(Status.acima);
+	end
+	
+rule "trigliceridios high status"
 	when
 	    ResultadosDTO($resultados: resultados)
 		$resultado: ResultadoDTO(tipoExame == TiposExames.triglicerideos, status == Status.abaixo) from $resultados
@@ -184,11 +199,71 @@ rule "trigliceridios abaixo"
 		$resultado.setMensagem("Consulte um medico, niveis de trigliceridios estao baixos");
 	end
 
-rule "trigliceridios acima"
+rule "trigliceridios low status"
 	when
 	    ResultadosDTO($resultados: resultados)
 		$resultado: ResultadoDTO(tipoExame == TiposExames.triglicerideos, status == Status.acima) from $resultados
 	then
 		$resultado.setMensagem("Consulte um medico, niveis de trigliceridios estao altas");
 	end
+//Colesterol HDL
+rule "colesterol hdl values"
+	when
+	    ResultadosDTO($resultados: resultados)
+	    ExamesDTO($exames: exames)
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.hdl) from $exames
+	then
+        $resultados.add(ResultadoDTO.builder()
+            .values(Arrays.asList(40.0, 60.0))
+            .value($exame.getValue())
+            .tipoExame($exame.getTipoExame())
+            .build());
+	end
 
+rule "colesterol hdl low"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.hdl, value < values[0]) from $resultados
+	then
+		$resultado.setStatus(Status.abaixo);
+	end
+
+rule "colesterol hdl high"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.hdl, value > values[1]) from $resultados
+	then
+		$resultado.setStatus(Status.acima);
+	end
+
+rule "colesterol hdl ideal"
+	when
+		ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.hdl, value < values[1], value > values[0]) from $resultados
+	then
+		$resultado.setStatus(Status.ideal);
+	end
+
+rule "colesterol hdl low status"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.hdl, status == Status.abaixo) from $resultados
+	then
+		$resultado.setMensagem("Consulte um medico, seus niveis de colesterol hdl estao baixos");
+	end
+
+rule "colesterol hdl high status"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.hdl, status == Status.acima) from $resultados
+	then
+		$resultado.setMensagem("Consulte um medico, seus niveis de colesterol hdl estao altos");
+	end
+
+rule "colesterol hdl ideal status"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.hdl, status == Status.ideal) from $resultados
+	then
+		$resultado.setMensagem("Parabens, seus niveis de colesterol hdl estao ordem!");
+	end

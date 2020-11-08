@@ -17,9 +17,7 @@ rule "idade"
     when
         $paciente: PacienteDTO()
     then
-        System.out.println("idade");
         $paciente.setIdade(Period.between($paciente.getDataNasc(), LocalDate.now()).getYears());
-        System.out.println($paciente.getIdade());
     end
 
 //regras para celulas vermelhas
@@ -173,6 +171,7 @@ rule "trigliceridios jejum values"
 	    System.out.println("trigliceridios jejum values");
         $resultados.add(ResultadoDTO.builder()
             .values(Arrays.asList(150.0))
+            .maiorMelhor(false)
             .value($exame.getValue())
             .tipoExame($exame.getTipoExame())
             .build());
@@ -187,6 +186,7 @@ rule "trigliceridios jejum values"
     	    System.out.println("trigliceridios nao jejum values");
             $resultados.add(ResultadoDTO.builder()
                 .values(Arrays.asList(175.0))
+                .maiorMelhor(false)
                 .value($exame.getValue())
                 .tipoExame($exame.getTipoExame())
                 .build());

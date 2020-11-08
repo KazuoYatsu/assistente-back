@@ -1,6 +1,5 @@
 package com.example.assistente.model.dto;
 
-import com.example.assistente.model.type.SexoPaciente;
 import com.example.assistente.model.type.Status;
 import com.example.assistente.model.type.TiposExames;
 import lombok.*;
@@ -18,4 +17,5 @@ public class ResultadoDTO {
     private List<Double> values;
     private Status status;
     private double value;
+    private boolean maiorMelhor;
 }

@@ -1,7 +1,8 @@
 package com.example.assistente.model.type;
 
 public enum TiposExames {
-	globulos_brancos,//
+	hemacias,//
+	hemoglobina,
 	globulos_vermelhos,//
 	plaquetas,//
 	ttpa_tp,

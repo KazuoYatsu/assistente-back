@@ -19,6 +19,7 @@ import java.util.Arrays
 //regras para hemacias
 rule "hemacia"
 	when
+		PacienteDTO(idade != null)
 	    ResultadosDTO($resultados: resultados)
 	    ExamesDTO($exames: exames)
 		$exame: ExamePacienteDTO(tipoExame == TiposExames.hemacias) from $exames
@@ -32,7 +33,7 @@ rule "hemacia"
 	
 rule "valor hemacia crianca"
 	when
-		PacienteDTO(idade >= 2, idade < 18)
+		$paciente: PacienteDTO(idade != null, idade >= 2, idade < 18)
 	    ResultadosDTO($resultados: resultados)
 		$resultado: ResultadoDTO(tipoExame == TiposExames.hemacias) from $resultados
 	then
@@ -42,8 +43,8 @@ rule "valor hemacia crianca"
 	
 rule "valor hemacia homem"
 	when
-		PacienteDTO(idade >= 18, sexo == SexoPaciente.masculino)
-	    ResultadosDTO($resultados: resultados)
+		$paciente: PacienteDTO(idade != null, idade >= 18, sexo == SexoPaciente.masculino)
+		ResultadosDTO($resultados: resultados)
 		$resultado: ResultadoDTO(tipoExame == TiposExames.hemacias) from $resultados
 	then
 		System.out.println("hemacia homem");
@@ -52,7 +53,7 @@ rule "valor hemacia homem"
 	
 rule "valor hemacia mulher"
 	when
-		PacienteDTO(idade < 18, sexo == SexoPaciente.feminino)
+		$paciente: PacienteDTO(idade != null, idade < 18, sexo == SexoPaciente.feminino)
 	    ResultadosDTO($resultados: resultados)
 		$resultado: ResultadoDTO(tipoExame == TiposExames.hemacias) from $resultados
 	then

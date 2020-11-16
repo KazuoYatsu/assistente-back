@@ -1,4 +1,5 @@
 package com.example.assistente.rules
+dialect "mvel"
 
 import java.time.LocalDate
 import java.time.Period
@@ -24,8 +25,8 @@ rule "hemacia"
 	then
 		System.out.println("hemacia");
         $resultados.add(ResultadoDTO.builder()
-            .value($exame.getValue())
-            .tipoExame($exame.getTipoExame())
+            .value($exame.value)
+            .tipoExame($exame.tipoExame)
             .build());
 	end
 	
@@ -36,7 +37,7 @@ rule "valor hemacia crianca"
 		$resultado: ResultadoDTO(tipoExame == TiposExames.hemacias) from $resultados
 	then
 		System.out.println("hemacia crianca");
-		$resultado.setValues(Indexadores.Hemacias.criancas);
+		$resultado.values = Indexadores.Hemacias.criancas;
 	end
 	
 rule "valor hemacia homem"
@@ -46,7 +47,7 @@ rule "valor hemacia homem"
 		$resultado: ResultadoDTO(tipoExame == TiposExames.hemacias) from $resultados
 	then
 		System.out.println("hemacia homem");
-		$resultado.setValues(Indexadores.Hemacias.homens);
+		$resultado.values = Indexadores.Hemacias.homens;
 	end
 	
 rule "valor hemacia mulher"
@@ -56,7 +57,7 @@ rule "valor hemacia mulher"
 		$resultado: ResultadoDTO(tipoExame == TiposExames.hemacias) from $resultados
 	then
 		System.out.println("hemacia mulher");
-		$resultado.setValues(Indexadores.Hemacias.mulheres);
+		$resultado.values = Indexadores.Hemacias.mulheres;
 	end
 
 rule "hemacia low"
@@ -65,7 +66,7 @@ rule "hemacia low"
 		$resultado: ResultadoDTO(tipoExame == TiposExames.hemacias, values != null, value < values[0]) from $resultados
 	then
 		System.out.println("hemacia low");
-		$resultado.setStatus(Status.abaixo);
+		$resultado.status = Status.abaixo;
 	end
 
 rule "hemacia high"
@@ -74,7 +75,7 @@ rule "hemacia high"
 		$resultado: ResultadoDTO(tipoExame == TiposExames.hemacias, values != null, value > values[1]) from $resultados
 	then
 		System.out.println("hemacia high");
-		$resultado.setStatus(Status.acima);
+		$resultado.status = Status.acima;
 	end
 
 rule "hemacia ideal"
@@ -83,7 +84,7 @@ rule "hemacia ideal"
 		$resultado: ResultadoDTO(tipoExame == TiposExames.hemacias, values != null, value < values[1], value > values[0]) from $resultados
 	then
 		System.out.println("hemacia ideal");
-		$resultado.setStatus(Status.ideal);
+		$resultado.status = Status.ideal;
 	end
 
 rule "hemacia low status"
@@ -91,7 +92,7 @@ rule "hemacia low status"
 	    ResultadosDTO($resultados: resultados)
 		$resultado: ResultadoDTO(tipoExame == TiposExames.hemacias, values != null, status == Status.abaixo) from $resultados
 	then
-		$resultado.setMensagem("Consulte um medico, suas hemacias estao baixas");
+		$resultado.mensagem = "Consulte um medico, suas hemacias estao baixas";
 	end
 
 rule "hemacia high status"
@@ -99,7 +100,7 @@ rule "hemacia high status"
 	    ResultadosDTO($resultados: resultados)
 		$resultado: ResultadoDTO(tipoExame == TiposExames.hemacias, status == Status.acima) from $resultados
 	then
-		$resultado.setMensagem("Consulte um medico, suas hemacias estao altas");
+		$resultado.mensagem = "Consulte um medico, suas hemacias estao altas";
 	end
 
 rule "hemacia ideal status"
@@ -107,103 +108,6 @@ rule "hemacia ideal status"
 	    ResultadosDTO($resultados: resultados)
 		$resultado: ResultadoDTO(tipoExame == TiposExames.hemacias, status == Status.ideal) from $resultados
 	then
-		$resultado.setMensagem("Parabens, suas hemacias estao em ordem!");
+		$resultado.mensagem = "Parabens, suas hemacias estao em ordem!";
 	end
 	
-	
-	//regras para hemoglobina
-rule "hemoglobina"
-	when
-	    ResultadosDTO($resultados: resultados)
-	    ExamesDTO($exames: exames)
-		$exame: ExamePacienteDTO(tipoExame == TiposExames.hemoglobina) from $exames
-	then
-        $resultados.add(ResultadoDTO.builder()
-            .value($exame.getValue())
-            .tipoExame($exame.getTipoExame())
-            .build());
-	end
-	
-rule "valor hemoglobina recem nascido"
-	when
-		PacienteDTO(idade < 2)
-	    ResultadosDTO($resultados: resultados)
-		$resultado: ResultadoDTO(tipoExame == TiposExames.hemoglobina) from $resultados
-	then
-		$resultado.setValues(Indexadores.Hemoglobina.recemNascidos);
-	end
-	
-rule "valor hemoglobina crianca"
-	when
-		PacienteDTO(idade >= 2, idade < 18)
-	    ResultadosDTO($resultados: resultados)
-		$resultado: ResultadoDTO(tipoExame == TiposExames.hemoglobina) from $resultados
-	then
-		$resultado.setValues(Indexadores.Hemoglobina.criancas);
-	end
-	
-rule "valor hemoglobina homem"
-	when
-		PacienteDTO(idade >= 18, sexo == SexoPaciente.masculino)
-	    ResultadosDTO($resultados: resultados)
-		$resultado: ResultadoDTO(tipoExame == TiposExames.hemoglobina) from $resultados
-	then
-		$resultado.setValues(Indexadores.Hemoglobina.homens);
-	end
-	
-rule "valor hemoglobina mulher"
-	when
-		PacienteDTO(idade < 18, sexo == SexoPaciente.feminino)
-	    ResultadosDTO($resultados: resultados)
-		$resultado: ResultadoDTO(tipoExame == TiposExames.hemoglobina) from $resultados
-	then
-		$resultado.setValues(Indexadores.Hemoglobina.mulheres);
-	end
-
-rule "hemoglobina low"
-	when
-	    ResultadosDTO($resultados: resultados)
-		$resultado: ResultadoDTO(tipoExame == TiposExames.hemoglobina, values != null, value < values[0]) from $resultados
-	then
-		$resultado.setStatus(Status.abaixo);
-	end
-
-rule "hemoglobina high"
-	when
-	    ResultadosDTO($resultados: resultados)
-		$resultado: ResultadoDTO(tipoExame == TiposExames.hemoglobina, values != null, value > values[1]) from $resultados
-	then
-		$resultado.setStatus(Status.acima);
-	end
-
-rule "hemoglobina ideal"
-	when
-		ResultadosDTO($resultados: resultados)
-		$resultado: ResultadoDTO(tipoExame == TiposExames.hemoglobina, values != null, value < values[1], value > values[0]) from $resultados
-	then
-		$resultado.setStatus(Status.ideal);
-	end
-
-rule "hemoglobina low status"
-	when
-	    ResultadosDTO($resultados: resultados)
-		$resultado: ResultadoDTO(tipoExame == TiposExames.hemoglobina, status == Status.abaixo) from $resultados
-	then
-		$resultado.setMensagem("Consulte um medico, suas hemoglobina está baixas");
-	end
-
-rule "hemoglobina high status"
-	when
-	    ResultadosDTO($resultados: resultados)
-		$resultado: ResultadoDTO(tipoExame == TiposExames.hemoglobina, status == Status.acima) from $resultados
-	then
-		$resultado.setMensagem("Consulte um medico, sua hemoglobina está altas");
-	end
-
-rule "hemoglobina ideal status"
-	when
-	    ResultadosDTO($resultados: resultados)
-		$resultado: ResultadoDTO(tipoExame == TiposExames.hemoglobina, status == Status.ideal) from $resultados
-	then
-		$resultado.setMensagem("Parabens, sua hemoglobina está em ordem!");
-	end

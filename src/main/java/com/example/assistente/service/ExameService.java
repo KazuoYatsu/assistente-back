@@ -27,12 +27,10 @@ public class ExameService {
         return null;
     }
 
-    public List<ExamePacienteDTO> incluirExames(List<ExamePacienteDTO> exames, int idPaciente) {
+    public List<ExamePacienteDTO> incluirExames(List<ExamePacienteDTO> exames) {
         var modelMapper = new ModelMapper();
 
-        var examesMapper = modelMapper.typeMap(ExamePacienteDTO.class, ExamePacienteEntity.class).addMappings(mapper -> {
-            mapper.map(src -> idPaciente, ExamePacienteEntity::setIdPaciente);
-        });
+        var examesMapper = modelMapper.typeMap(ExamePacienteDTO.class, ExamePacienteEntity.class);
 
         var examesEntity = exames.stream().map(examesMapper::map).collect(Collectors.toList());
 

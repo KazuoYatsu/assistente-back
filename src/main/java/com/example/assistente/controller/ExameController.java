@@ -19,9 +19,8 @@ public class ExameController {
 
     @PostMapping()
     public List<ExamePacienteDTO> incluirExames(
-            @RequestBody List<ExamePacienteDTO> exames,
-            @RequestParam(name = "idPaciente") int pacienteId) {
-        return exameService.incluirExames(exames, pacienteId);
+            @RequestBody List<ExamePacienteDTO> exames) {
+        return exameService.incluirExames(exames);
     }
 
     @GetMapping()

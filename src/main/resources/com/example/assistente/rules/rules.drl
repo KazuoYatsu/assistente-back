@@ -1,4 +1,5 @@
 package com.example.assistente.rules
+dialect "mvel"
 
 import java.time.LocalDate
 import java.time.Period
@@ -23,6 +24,101 @@ rule "idade"
         System.out.println($paciente.getIdade());
     end
 
+//regras para hemacias
+rule "hemacia"
+	when
+	    ResultadosDTO($resultados: resultados)
+	    ExamesDTO($exames: exames)
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.hemacias) from $exames
+	then
+		System.out.println("hemacia");
+        $resultados.add(ResultadoDTO.builder()
+            .value($exame.value)
+            .tipoExame($exame.tipoExame)
+            .build());
+	end
+	
+rule "valor hemacia crianca"
+	when
+		PacienteDTO(idade >= 2, idade < 18)
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.hemacias) from $resultados
+	then
+		System.out.println("hemacia crianca");
+		$resultado.values = Indexadores.Hemacias.criancas;
+	end
+	
+rule "valor hemacia homem"
+	when
+		PacienteDTO(idade >= 18, sexo == SexoPaciente.masculino)
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.hemacias) from $resultados
+	then
+		System.out.println("hemacia homem");
+		$resultado.values = Indexadores.Hemacias.homens;
+	end
+	
+rule "valor hemacia mulher"
+	when
+		PacienteDTO(idade < 18, sexo == SexoPaciente.feminino)
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.hemacias) from $resultados
+	then
+		System.out.println("hemacia mulher");
+		$resultado.values = Indexadores.Hemacias.mulheres;
+	end
+
+rule "hemacia low"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.hemacias, values != null, value < values[0]) from $resultados
+	then
+		System.out.println("hemacia low");
+		$resultado.status = Status.abaixo;
+	end
+
+rule "hemacia high"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.hemacias, values != null, value > values[1]) from $resultados
+	then
+		System.out.println("hemacia high");
+		$resultado.status = Status.acima;
+	end
+
+rule "hemacia ideal"
+	when
+		ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.hemacias, values != null, value < values[1], value > values[0]) from $resultados
+	then
+		System.out.println("hemacia ideal");
+		$resultado.status = Status.ideal;
+	end
+
+rule "hemacia low status"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.hemacias, values != null, status == Status.abaixo) from $resultados
+	then
+		$resultado.mensagem = "Consulte um medico, suas hemacias estao baixas";
+	end
+
+rule "hemacia high status"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.hemacias, status == Status.acima) from $resultados
+	then
+		$resultado.mensagem = "Consulte um medico, suas hemacias estao altas";
+	end
+
+rule "hemacia ideal status"
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.hemacias, status == Status.ideal) from $resultados
+	then
+		$resultado.mensagem = "Parabens, suas hemacias estao em ordem!";
+	end
+	
+	
 //regras para acido urico
 rule "acido urico values masculino"
 	when

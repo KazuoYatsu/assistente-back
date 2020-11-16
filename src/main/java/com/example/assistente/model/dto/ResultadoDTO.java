@@ -18,4 +18,5 @@ public class ResultadoDTO {
     private Status status;
     private double value;
     private boolean maiorMelhor;
+    private boolean intervalo;
 }

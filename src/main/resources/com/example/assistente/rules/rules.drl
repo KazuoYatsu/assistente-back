@@ -15,15 +15,6 @@ import com.example.assistente.model.type.Status
 import com.example.assistente.model.type.SexoPaciente
 import java.util.Arrays
 
-rule "idade"
-    when
-        $paciente: PacienteDTO()
-    then
-    	System.out.println("idade");
-        $paciente.idade = Period.between($paciente.dataNasc, LocalDate.now()).getYears();
-        System.out.println($paciente.idade);
-    end
-
 	
 //regras para acido urico
 rule "acido urico values masculino"

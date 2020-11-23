@@ -19,7 +19,7 @@ public abstract class Indexadores {
     }
 
     public static abstract class CelulaBranca {
-        public static final List<Double> leucocitosTotais = Arrays.asList(4000.0, 11000.0);
+        public static final List<Double> leucocitos = Arrays.asList(4000.0, 11000.0);
         public static final List<Double> bastonete = Arrays.asList(0.0, 800.0);
         public static final List<Double> seguimentados = Arrays.asList(1611.0, 8000.0);
         public static final List<Double> linfocitos = Arrays.asList(1500.0, 8000.0);

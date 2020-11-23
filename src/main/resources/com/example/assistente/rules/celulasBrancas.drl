@@ -1,0 +1,125 @@
+package com.example.assistente.rules
+dialect "mvel"
+
+import java.time.LocalDate
+import java.time.Period
+
+import com.example.assistente.model.dto.ExamePacienteDTO
+import com.example.assistente.model.dto.PacienteDTO
+import com.example.assistente.model.dto.ResultadoDTO
+import com.example.assistente.drools.model.ExamesDTO
+import com.example.assistente.drools.Indexadores
+import com.example.assistente.drools.model.ResultadosDTO
+import com.example.assistente.model.type.TiposExames
+import com.example.assistente.model.type.Status
+import com.example.assistente.model.type.SexoPaciente
+import java.util.Arrays
+
+
+// leucocitos
+rule "leucocitos"
+	when
+	    ResultadosDTO($resultados: resultados)
+	    ExamesDTO($exames: exames)
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.leucocitos) from $exames
+	then
+		System.out.println("leucocitos");
+        $resultados.add(ResultadoDTO.builder()
+            .value($exame.value)
+            .values(Indexadores.CelulaBranca.leucocitos)
+            .tipoExame($exame.tipoExame)
+            .build());
+	end
+	
+	
+	
+// bastonete
+rule "bastonete"
+	when
+	    ResultadosDTO($resultados: resultados)
+	    ExamesDTO($exames: exames)
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.bastonete) from $exames
+	then
+		System.out.println("bastonete");
+        $resultados.add(ResultadoDTO.builder()
+            .value($exame.value)
+            .values(Indexadores.CelulaBranca.bastonete)
+            .tipoExame($exame.tipoExame)
+            .build());
+	end
+	
+// seguimentados
+rule "seguimentados"
+	when
+	    ResultadosDTO($resultados: resultados)
+	    ExamesDTO($exames: exames)
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.seguimentados) from $exames
+	then
+		System.out.println("seguimentados");
+        $resultados.add(ResultadoDTO.builder()
+            .value($exame.value)
+            .values(Indexadores.CelulaBranca.seguimentados)
+            .tipoExame($exame.tipoExame)
+            .build());
+	end
+	
+// linfocitos
+rule "linfocitos"
+	when
+	    ResultadosDTO($resultados: resultados)
+	    ExamesDTO($exames: exames)
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.linfocitos) from $exames
+	then
+		System.out.println("linfocitos");
+        $resultados.add(ResultadoDTO.builder()
+            .value($exame.value)
+            .values(Indexadores.CelulaBranca.linfocitos)
+            .tipoExame($exame.tipoExame)
+            .build());
+	end
+	
+// monocitos
+rule "monocitos"
+	when
+	    ResultadosDTO($resultados: resultados)
+	    ExamesDTO($exames: exames)
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.monocitos) from $exames
+	then
+		System.out.println("monocitos");
+        $resultados.add(ResultadoDTO.builder()
+            .value($exame.value)
+            .values(Indexadores.CelulaBranca.monocitos)
+            .tipoExame($exame.tipoExame)
+            .build());
+	end
+
+// eosinofilos
+rule "eosinofilos"
+	when
+	    ResultadosDTO($resultados: resultados)
+	    ExamesDTO($exames: exames)
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.eosinofilos) from $exames
+	then
+		System.out.println("eosinofilos");
+        $resultados.add(ResultadoDTO.builder()
+            .value($exame.value)
+            .values(Indexadores.CelulaBranca.eosinofilos)
+            .tipoExame($exame.tipoExame)
+            .build());
+	end
+	
+// basofilos
+rule "basofilos"
+	when
+	    ResultadosDTO($resultados: resultados)
+	    ExamesDTO($exames: exames)
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.basofilos) from $exames
+	then
+		System.out.println("basofilos");
+        $resultados.add(ResultadoDTO.builder()
+            .value($exame.value)
+            .values(Indexadores.CelulaBranca.basofilos)
+            .tipoExame($exame.tipoExame)
+            .build());
+	end
+

@@ -1,0 +1,41 @@
+package com.example.assistente.rules
+dialect "mvel"
+
+import java.time.LocalDate
+import java.time.Period
+
+import com.example.assistente.model.dto.ExamePacienteDTO
+import com.example.assistente.model.dto.PacienteDTO
+import com.example.assistente.model.dto.ResultadoDTO
+import com.example.assistente.drools.model.ExamesDTO
+import com.example.assistente.drools.Indexadores
+import com.example.assistente.drools.model.ResultadosDTO
+import com.example.assistente.model.type.TiposExames
+import com.example.assistente.model.type.Status
+import com.example.assistente.model.type.SexoPaciente
+import java.util.Arrays
+
+// intervalos
+rule "low status"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(status == Status.abaixo) from $resultados
+	then
+		$resultado.mensagem = $resultado.tipoExame.mensagens[0];
+	end
+
+rule "high status"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(status == Status.acima) from $resultados
+	then
+		$resultado.mensagem = $resultado.tipoExame.mensagens[1];
+	end
+
+rule "ideal status"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(status == Status.ideal) from $resultados
+	then
+		$resultado.mensagem = $resultado.tipoExame.mensagens[2];
+	end

@@ -15,82 +15,50 @@ import com.example.assistente.model.type.Status
 import com.example.assistente.model.type.SexoPaciente
 import java.util.Arrays
 
-//plaquetas
-rule "plaquetas"
+// leucocitos
+rule "tp"
 salience 3
 	when
 	    ResultadosDTO($resultados: resultados)
 	    ExamesDTO($exames: exames)
-		$exame: ExamePacienteDTO(tipoExame == TiposExames.plaquetas) from $exames
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.tp) from $exames
 	then
-		System.out.println("plaquetas");
+		System.out.println("tp");
         $resultados.add(ResultadoDTO.builder()
             .value($exame.value)
-            .values(Indexadores.plaquetas)
-            .tipoExame($exame.tipoExame)
-            .build());
-	end	
-
-
-// tpg tgo
-rule "tgp"
-salience 3
-	when
-	    ResultadosDTO($resultados: resultados)
-	    ExamesDTO($exames: exames)
-		$exame: ExamePacienteDTO(tipoExame == TiposExames.tgp) from $exames
-	then
-		System.out.println("tgp");
-        $resultados.add(ResultadoDTO.builder()
-            .value($exame.value)
-            .values(Indexadores.tgp)
+            .values(Indexadores.TTPATP.tp)
             .tipoExame($exame.tipoExame)
             .build());
 	end
 	
-rule "tgo"
+// leucocitos
+rule "inrTp"
 salience 3
 	when
 	    ResultadosDTO($resultados: resultados)
 	    ExamesDTO($exames: exames)
-		$exame: ExamePacienteDTO(tipoExame == TiposExames.tgo) from $exames
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.inrTp) from $exames
 	then
-		System.out.println("tgo");
+		System.out.println("inrTp");
         $resultados.add(ResultadoDTO.builder()
             .value($exame.value)
-            .values(Indexadores.tgo)
+            .values(Indexadores.TTPATP.inrTp)
             .tipoExame($exame.tipoExame)
             .build());
 	end
 	
-	
-//tsh e t4 livre
-rule "tsh"
+// leucocitos
+rule "ttpa"
 salience 3
 	when
 	    ResultadosDTO($resultados: resultados)
 	    ExamesDTO($exames: exames)
-		$exame: ExamePacienteDTO(tipoExame == TiposExames.tsh) from $exames
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.ttpa) from $exames
 	then
-		System.out.println("tsh");
+		System.out.println("ttpa");
         $resultados.add(ResultadoDTO.builder()
             .value($exame.value)
-            .values(Indexadores.tsh)
-            .tipoExame($exame.tipoExame)
-            .build());
-	end
-	
-rule "t4 livre"
-salience 3
-	when
-	    ResultadosDTO($resultados: resultados)
-	    ExamesDTO($exames: exames)
-		$exame: ExamePacienteDTO(tipoExame == TiposExames.t4_livre) from $exames
-	then
-		System.out.println("t4 livre");
-        $resultados.add(ResultadoDTO.builder()
-            .value($exame.value)
-            .values(Indexadores.t4Livre)
+            .values(Indexadores.TTPATP.ttpa)
             .tipoExame($exame.tipoExame)
             .build());
 	end

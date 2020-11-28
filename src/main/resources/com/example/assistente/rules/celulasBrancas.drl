@@ -18,6 +18,7 @@ import java.util.Arrays
 
 // leucocitos
 rule "leucocitos"
+salience 3
 	when
 	    ResultadosDTO($resultados: resultados)
 	    ExamesDTO($exames: exames)
@@ -32,9 +33,9 @@ rule "leucocitos"
 	end
 	
 	
-	
 // bastonete
 rule "bastonete"
+salience 3
 	when
 	    ResultadosDTO($resultados: resultados)
 	    ExamesDTO($exames: exames)
@@ -50,6 +51,7 @@ rule "bastonete"
 	
 // seguimentados
 rule "seguimentados"
+salience 3
 	when
 	    ResultadosDTO($resultados: resultados)
 	    ExamesDTO($exames: exames)
@@ -65,6 +67,7 @@ rule "seguimentados"
 	
 // linfocitos
 rule "linfocitos"
+salience 3
 	when
 	    ResultadosDTO($resultados: resultados)
 	    ExamesDTO($exames: exames)
@@ -80,6 +83,7 @@ rule "linfocitos"
 	
 // monocitos
 rule "monocitos"
+salience 3
 	when
 	    ResultadosDTO($resultados: resultados)
 	    ExamesDTO($exames: exames)
@@ -95,6 +99,7 @@ rule "monocitos"
 
 // eosinofilos
 rule "eosinofilos"
+salience 3
 	when
 	    ResultadosDTO($resultados: resultados)
 	    ExamesDTO($exames: exames)
@@ -110,6 +115,7 @@ rule "eosinofilos"
 	
 // basofilos
 rule "basofilos"
+salience 3
 	when
 	    ResultadosDTO($resultados: resultados)
 	    ExamesDTO($exames: exames)

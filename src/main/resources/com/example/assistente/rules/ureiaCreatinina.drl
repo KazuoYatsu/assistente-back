@@ -1,0 +1,67 @@
+package com.example.assistente.rules
+dialect "mvel"
+
+import java.time.LocalDate
+import java.time.Period
+
+import com.example.assistente.model.dto.ExamePacienteDTO
+import com.example.assistente.model.dto.PacienteDTO
+import com.example.assistente.model.dto.ResultadoDTO
+import com.example.assistente.drools.model.ExamesDTO
+import com.example.assistente.drools.Indexadores
+import com.example.assistente.drools.Idade
+import com.example.assistente.drools.model.ResultadosDTO
+import com.example.assistente.model.type.TiposExames
+import com.example.assistente.model.type.Status
+import com.example.assistente.model.type.SexoPaciente
+import java.util.Arrays
+
+    
+//regras para ureia e creatinina
+rule "ureia e creatinina"
+salience 3
+	when
+	    ResultadosDTO($resultados: resultados)
+	    ExamesDTO($exames: exames)
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.ureia_creatinina) from $exames
+	then
+		System.out.println("ueria e creatinina");
+        $resultados.add(ResultadoDTO.builder()
+            .value($exame.value)
+            .tipoExame($exame.tipoExame)
+            .build());
+	end
+	
+rule "valor ureia e creatinina bebe"
+salience 2
+	when
+		PacienteDTO(idade <= Idade.crianca)
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.ureia_creatinina) from $resultados
+	then
+		System.out.println("valor ureia e creatinina bebe");
+		$resultado.values = Indexadores.UreiaCreatinina.bebes;
+	end
+	
+rule "valor ureia e creatinina crianca"
+salience 2
+	when
+		PacienteDTO(idade >= Idade.crianca, idade < Idade.adulto)
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.ureia_creatinina) from $resultados
+	then
+		System.out.println("valor ureia e creatinina crianca");
+		$resultado.values = Indexadores.UreiaCreatinina.criancas;
+	end
+	
+rule "valor ureia e creatinina adulto"
+salience 2
+	when
+		PacienteDTO(idade >= Idade.adulto)
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.ureia_creatinina) from $resultados
+	then
+		System.out.println("valor ureia e creatinina adulto");
+		$resultado.values = Indexadores.UreiaCreatinina.adultos;
+	end
+	

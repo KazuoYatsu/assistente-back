@@ -62,6 +62,9 @@ public abstract class Indexadores {
     public static final List<Double> tgp = Arrays.asList(7.0, 56.0);
     public static final List<Double> tgo = Arrays.asList(5.0, 40.0);
 
+    public static final List<Double> tsh = Arrays.asList(0.4, 4.5);
+    public static final List<Double> t4Livre = Arrays.asList(0.7, 1.8);
+    
     public static final List<Double> ldl = Arrays.asList(50.0, 70.0, 100.0, 130.0, 189.0);
 
     public static abstract class PSA {

@@ -1,0 +1,64 @@
+package com.example.assistente.rules
+dialect "mvel"
+
+import java.time.LocalDate
+import java.time.Period
+
+import com.example.assistente.model.dto.ExamePacienteDTO
+import com.example.assistente.model.dto.PacienteDTO
+import com.example.assistente.model.dto.ResultadoDTO
+import com.example.assistente.drools.model.ExamesDTO
+import com.example.assistente.drools.Indexadores
+import com.example.assistente.drools.model.ResultadosDTO
+import com.example.assistente.model.type.TiposExames
+import com.example.assistente.model.type.Status
+import com.example.assistente.model.type.SexoPaciente
+import java.util.Arrays
+
+// regras para albumina
+rule "albumina"
+salience 3
+	when
+	    ResultadosDTO($resultados: resultados)
+	    ExamesDTO($exames: exames)
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.albumina) from $exames
+	then
+		System.out.println("albumina");
+        $resultados.add(ResultadoDTO.builder()
+            .value($exame.value)
+            .tipoExame($exame.tipoExame)
+            .build());
+	end
+	
+rule "valor albumina recem nascido"
+salience 2
+	when
+		PacienteDTO(idade <= Idade.recemNascido)
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.albumina) from $resultados
+	then
+		System.out.println("valor albumina recem nascido");
+		$resultado.values = Indexadores.Albumina.recemNascidos;
+	end
+	
+rule "valor albumina crianca"
+salience 2
+	when
+		PacienteDTO(idade >= Idade.recemNascido, idade < Idade.adulto)
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.albumina) from $resultados
+	then
+		System.out.println("valor albumina crianca");
+		$resultado.values = Indexadores.Albumina.criancas;
+	end
+	
+rule "valor albumina adulto"
+salience 2
+	when
+		PacienteDTO(idade >= Idade.adulto)
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.albumina) from $resultados
+	then
+		System.out.println("valor albumina adulto");
+		$resultado.values = Indexadores.Albumina.adultos;
+	end

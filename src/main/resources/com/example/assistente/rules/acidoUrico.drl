@@ -1,0 +1,54 @@
+package com.example.assistente.rules
+dialect "mvel"
+
+import java.time.LocalDate
+import java.time.Period
+
+import com.example.assistente.model.dto.ExamePacienteDTO
+import com.example.assistente.model.dto.PacienteDTO
+import com.example.assistente.model.dto.ResultadoDTO
+import com.example.assistente.drools.model.ExamesDTO
+import com.example.assistente.drools.Indexadores
+import com.example.assistente.drools.model.ResultadosDTO
+import com.example.assistente.model.type.TiposExames
+import com.example.assistente.model.type.Status
+import com.example.assistente.model.type.SexoPaciente
+import java.util.Arrays
+
+//regras para acido urico
+rule "acido urico"
+salience 3
+	when
+	    ResultadosDTO($resultados: resultados)
+	    ExamesDTO($exames: exames)
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.acido_urico) from $exames
+	then
+		System.out.println("acido urico");
+        $resultados.add(ResultadoDTO.builder()
+            .value($exame.value)
+            .tipoExame($exame.tipoExame)
+            .build());
+	end
+	
+rule "valor acido urico homem"
+salience 2
+	when
+		PacienteDTO(sexo == SexoPaciente.masculino)
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.acido_urico) from $resultados
+	then
+		System.out.println("valor acido urico homem");
+		$resultado.values = Indexadores.AcidoUrico.homem;
+	end
+	
+rule "valor acido urico mulher"
+salience 2
+	when
+		PacienteDTO(sexo == SexoPaciente.feminino)
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.acido_urico) from $resultados
+	then
+		System.out.println("valor acido urico mulher");
+		$resultado.values = Indexadores.AcidoUrico.mulher;
+	end
+

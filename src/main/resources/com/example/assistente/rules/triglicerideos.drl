@@ -15,5 +15,96 @@ import com.example.assistente.model.type.Status
 import com.example.assistente.model.type.SexoPaciente
 import java.util.Arrays
 
-//plaquetas
-
+//triglicerideos
+rule "triglicerideos"
+salience 3
+	when
+	    ResultadosDTO($resultados: resultados)
+	    ExamesDTO($exames: exames)
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.triglicerideos) from $exames
+	then
+		System.out.println("triglicerideos");
+        $resultados.add(ResultadoDTO.builder()
+            .value($exame.value)
+            .tipoExame($exame.tipoExame)
+            .build());
+	end
+	
+rule "valor triglicerideos menos 10 jejum"
+salience 2
+	when
+		PacienteDTO(idade < Idade.crianca10)
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.triglicerideos) from $resultados
+		ExamesDTO($exames: exames)
+		ExamePacienteDTO(tipoExame == $resultado.tipoExame, jejum == true) from $exames
+	then
+		System.out.println("valor triglicerideos menos 10 jejum");
+		$resultado.values = Indexadores.Triglicerideos.Jejum.menos10;
+	end
+	
+rule "valor triglicerideos menos 20 jejum"
+salience 2
+	when
+		PacienteDTO(idade >= Idade.crianca10, idade < Idade.adulto20)
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.triglicerideos) from $resultados
+		ExamesDTO($exames: exames)
+		ExamePacienteDTO(tipoExame == $resultado.tipoExame, jejum == true) from $exames
+	then
+		System.out.println("valor triglicerideos menos 20 jejum");
+		$resultado.values = Indexadores.Triglicerideos.Jejum.menos20;
+	end
+	
+rule "valor triglicerideos mais 20 jejum"
+salience 2
+	when
+		PacienteDTO(idade >= Idade.adulto20)
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.triglicerideos) from $resultados
+		ExamesDTO($exames: exames)
+		ExamePacienteDTO(tipoExame == $resultado.tipoExame, jejum == true) from $exames
+	then
+		System.out.println("valor triglicerideos mais 20 jejum");
+		$resultado.values = Indexadores.Triglicerideos.Jejum.mais20;
+	end
+	
+rule "valor triglicerideos menos 10 nao jejum"
+salience 2
+	when
+		PacienteDTO(idade < Idade.crianca10)
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.triglicerideos) from $resultados
+		ExamesDTO($exames: exames)
+		ExamePacienteDTO(tipoExame == $resultado.tipoExame, jejum == false) from $exames
+	then
+		System.out.println("valor triglicerideos menos 10 nao jejum");
+		$resultado.values = Indexadores.Triglicerideos.NaoJejum.menos10;
+	end
+	
+rule "valor triglicerideos menos 20 nao jejum"
+salience 2
+	when
+		PacienteDTO(idade >= Idade.crianca10, idade < Idade.adulto20)
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.triglicerideos) from $resultados
+		ExamesDTO($exames: exames)
+		ExamePacienteDTO(tipoExame == $resultado.tipoExame, jejum == false) from $exames
+	then
+		System.out.println("valor triglicerideos menos 20 nao jejum");
+		$resultado.values = Indexadores.Triglicerideos.NaoJejum.menos20;
+	end
+	
+rule "valor triglicerideos mais 20 nao jejum"
+salience 2
+	when
+		PacienteDTO(idade >= Idade.adulto20)
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.triglicerideos) from $resultados
+		ExamesDTO($exames: exames)
+		ExamePacienteDTO(tipoExame == $resultado.tipoExame, jejum == false) from $exames
+	then
+		System.out.println("valor triglicerideos mais 20 nao jejum");
+		$resultado.values = Indexadores.Triglicerideos.NaoJejum.mais20;
+	end
+	

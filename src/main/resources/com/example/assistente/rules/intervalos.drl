@@ -22,7 +22,7 @@ salience 1
 	    ResultadosDTO($resultados: resultados)
 		$resultado: ResultadoDTO(tipoExame.intervalo == true, tipoExame.custom == false, values != null, value < values[0]) from $resultados
 	then
-		System.out.println("low");
+		System.out.println("low " + $resultado.tipoExame);
 		$resultado.status = Status.abaixo;
 	end
 
@@ -30,18 +30,39 @@ rule "high"
 salience 1
 	when
 	    ResultadosDTO($resultados: resultados)
-		$resultado: ResultadoDTO(tipoExame.intervalo == true, tipoExame.custom == false, values != null, value > values[1]) from $resultados
+		$resultado: ResultadoDTO(tipoExame.intervalo == true, tipoExame.custom == false, values != null, value >= values[1]) from $resultados
 	then
-		System.out.println("high");
+		System.out.println("high " + $resultado.tipoExame);
 		$resultado.status = Status.acima;
 	end
 
-rule "hemacia ideal"
+rule "ideal"
 salience 1
 	when
 		ResultadosDTO($resultados: resultados)
-		$resultado: ResultadoDTO(tipoExame.intervalo == true, tipoExame.custom == false, values != null, value < values[1], value > values[0]) from $resultados
+		$resultado: ResultadoDTO(tipoExame.intervalo == true, tipoExame.custom == false, values != null, value < values[1], value >= values[0]) from $resultados
 	then
-		System.out.println("ideal");
+		System.out.println("ideal " + $resultado.tipoExame);
 		$resultado.status = Status.ideal;
+	end
+	
+// menor que
+rule "intervalo false ideal"
+salience 1
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame.intervalo == false, tipoExame.custom == false, values != null, value < values[0]) from $resultados
+	then
+		System.out.println("intervalo false ideal " + $resultado.tipoExame);
+		$resultado.status = Status.ideal;
+	end
+	
+rule "intervalo false high"
+salience 1
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame.intervalo == false, tipoExame.custom == false, values != null, value >= values[0]) from $resultados
+	then
+		System.out.println("intervalo false high " + $resultado.tipoExame);
+		$resultado.status = Status.acima;
 	end

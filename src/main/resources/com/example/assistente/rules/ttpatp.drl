@@ -15,7 +15,7 @@ import com.example.assistente.model.type.Status
 import com.example.assistente.model.type.SexoPaciente
 import java.util.Arrays
 
-// leucocitos
+// tp
 rule "tp"
 salience 3
 	when
@@ -31,7 +31,7 @@ salience 3
             .build());
 	end
 	
-// leucocitos
+// inrTp
 rule "inrTp"
 salience 3
 	when
@@ -47,7 +47,7 @@ salience 3
             .build());
 	end
 	
-// leucocitos
+// ttpa
 rule "ttpa"
 salience 3
 	when

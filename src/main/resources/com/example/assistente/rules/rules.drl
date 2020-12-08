@@ -94,3 +94,67 @@ salience 3
             .tipoExame($exame.tipoExame)
             .build());
 	end
+	
+//pcr
+rule "pcr"
+salience 3
+	when
+	    ResultadosDTO($resultados: resultados)
+	    ExamesDTO($exames: exames)
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.pcr) from $exames
+	then
+		System.out.println("pcr");
+        $resultados.add(ResultadoDTO.builder()
+            .value($exame.value)
+            .values(Indexadores.pcr)
+            .tipoExame($exame.tipoExame)
+            .build());
+	end
+	
+//glicose
+rule "glicose"
+salience 3
+	when
+	    ResultadosDTO($resultados: resultados)
+	    ExamesDTO($exames: exames)
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.glicose) from $exames
+	then
+		System.out.println("glicose");
+        $resultados.add(ResultadoDTO.builder()
+            .value($exame.value)
+            .values(Indexadores.glicose)
+            .tipoExame($exame.tipoExame)
+            .build());
+	end
+	
+//HDL
+rule "HDL"
+salience 3
+	when
+	    ResultadosDTO($resultados: resultados)
+	    ExamesDTO($exames: exames)
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.hdl) from $exames
+	then
+		System.out.println("HDL");
+        $resultados.add(ResultadoDTO.builder()
+            .value($exame.value)
+            .values(Indexadores.hdl)
+            .tipoExame($exame.tipoExame)
+            .build());
+	end
+	
+//LDL
+rule "LDL"
+salience 3
+	when
+	    ResultadosDTO($resultados: resultados)
+	    ExamesDTO($exames: exames)
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.hdl) from $exames
+	then
+		System.out.println("HDL");
+        $resultados.add(ResultadoDTO.builder()
+            .value($exame.value)
+            .values(Indexadores.hdl)
+            .tipoExame($exame.tipoExame)
+            .build());
+	end

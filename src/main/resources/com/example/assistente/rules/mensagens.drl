@@ -19,23 +19,40 @@ import java.util.Arrays
 rule "low status"
 	when
 	    ResultadosDTO($resultados: resultados)
-		$resultado: ResultadoDTO(status == Status.abaixo) from $resultados
+		$resultado: ResultadoDTO(status == Status.abaixo, tipoExame.intervalo == true) from $resultados
 	then
 		$resultado.mensagem = $resultado.tipoExame.mensagens[0];
-	end
-
-rule "high status"
-	when
-	    ResultadosDTO($resultados: resultados)
-		$resultado: ResultadoDTO(status == Status.acima) from $resultados
-	then
-		$resultado.mensagem = $resultado.tipoExame.mensagens[1];
 	end
 
 rule "ideal status"
 	when
 	    ResultadosDTO($resultados: resultados)
-		$resultado: ResultadoDTO(status == Status.ideal) from $resultados
+		$resultado: ResultadoDTO(status == Status.ideal, tipoExame.intervalo == true) from $resultados
+	then
+		$resultado.mensagem = $resultado.tipoExame.mensagens[1];
+	end
+	
+rule "high status"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(status == Status.acima, tipoExame.intervalo == true) from $resultados
 	then
 		$resultado.mensagem = $resultado.tipoExame.mensagens[2];
+	end
+	
+// menor que
+rule "tipo exame false ideal status"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(status == Status.ideal, tipoExame.intervalo == false) from $resultados
+	then
+		$resultado.mensagem = $resultado.tipoExame.mensagens[0];
+	end
+
+rule "tipo exame false alto status"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(status == Status.acima, tipoExame.intervalo == false) from $resultados
+	then
+		$resultado.mensagem = $resultado.tipoExame.mensagens[1];
 	end

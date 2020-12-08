@@ -15,5 +15,84 @@ import com.example.assistente.model.type.Status
 import com.example.assistente.model.type.SexoPaciente
 import java.util.Arrays
 
-//plaquetas
-
+//vhs
+rule "vhs"
+salience 3
+	when
+	    ResultadosDTO($resultados: resultados)
+	    ExamesDTO($exames: exames)
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.vhs) from $exames
+	then
+		System.out.println("vhs");
+        $resultados.add(ResultadoDTO.builder()
+            .value($exame.value)
+            .tipoExame($exame.tipoExame)
+            .build());
+	end
+	
+rule "valor vhs não adulto risco masculino"
+salience 2
+	when
+		PacienteDTO(idade < Idade.adultoRisco, sexo == SexoPaciente.masculino)
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.vhs) from $resultados
+	then
+		System.out.println("vhs não adulto risco homem");
+		$resultado.values = Indexadores.VHS.Homem.naoAdultoRisco;
+	end
+	
+rule "valor vhs adulto risco masculino"
+salience 2
+	when
+		PacienteDTO(idade >= Idade.adultoRisco, idade < Idade.idosoRiscoElevado, sexo == SexoPaciente.masculino)
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.vhs) from $resultados
+	then
+		System.out.println("vhs adulto risco homem");
+		$resultado.values = Indexadores.VHS.Homem.adultoRisco;
+	end
+	
+rule "valor vhs idoso risco elevado masculino"
+salience 2
+	when
+		PacienteDTO(idade >= Idade.idosoRiscoElevado, sexo == SexoPaciente.masculino)
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.vhs) from $resultados
+	then
+		System.out.println("vhs idoso risco elevado masculino");
+		$resultado.values = Indexadores.VHS.Homem.idosoRiscoElevado;
+	end
+	
+	rule "valor vhs não adulto risco feminino"
+salience 2
+	when
+		PacienteDTO(idade < Idade.adultoRisco, sexo == SexoPaciente.feminino)
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.vhs) from $resultados
+	then
+		System.out.println("vhs não adulto risco mulher");
+		$resultado.values = Indexadores.VHS.Mulher.naoAdultoRisco;
+	end
+	
+rule "valor vhs adulto risco feminino"
+salience 2
+	when
+		PacienteDTO(idade >= Idade.adultoRisco, idade < Idade.idosoRiscoElevado, sexo == SexoPaciente.feminino)
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.vhs) from $resultados
+	then
+		System.out.println("vhs adulto risco mulher");
+		$resultado.values = Indexadores.VHS.Mulher.adultoRisco;
+	end
+	
+rule "valor vhs idoso risco elevado feminino"
+salience 2
+	when
+		PacienteDTO(idade >= Idade.idosoRiscoElevado, sexo == SexoPaciente.feminino)
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.vhs) from $resultados
+	then
+		System.out.println("vhs idoso risco elevado mulher");
+		$resultado.values = Indexadores.VHS.Mulher.idosoRiscoElevado;
+	end
+	

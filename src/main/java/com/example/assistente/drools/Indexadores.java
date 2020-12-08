@@ -20,12 +20,12 @@ public abstract class Indexadores {
 
     public static abstract class CelulaBranca {
         public static final List<Double> leucocitos = Arrays.asList(4000.0, 11000.0);
-        public static final List<Double> bastonete = Arrays.asList(0.0, 800.0);
+        public static final List<Double> bastonete = Collections.singletonList(800.0);
         public static final List<Double> seguimentados = Arrays.asList(1611.0, 8000.0);
         public static final List<Double> linfocitos = Arrays.asList(1500.0, 8000.0);
         public static final List<Double> monocitos = Arrays.asList(100.0, 1000.0);
-        public static final List<Double> eosinofilos = Arrays.asList(0.0, 500.0);
-        public static final List<Double> basofilos = Arrays.asList(0.0, 200.0);
+        public static final List<Double> eosinofilos = Collections.singletonList(500.0);
+        public static final List<Double> basofilos = Collections.singletonList(200.0);
     }
 
     public static final List<Double> plaquetas = Arrays.asList(150000.0, 450000.0);
@@ -37,7 +37,7 @@ public abstract class Indexadores {
         public static final List<Double> mulher = Arrays.asList(2.4, 6.0);
     }
 
-    public static final List<Double> pcr = Arrays.asList(0.3, 3.0);
+    public static final List<Double> pcr = Collections.singletonList(0.3);
 
     public static abstract class Albumina {
         public static final List<Double> recemNascidos = Arrays.asList(20.0, 45.0);
@@ -51,7 +51,7 @@ public abstract class Indexadores {
         public static final List<Double> adultos = Arrays.asList(13.0, 43.0);
     }
 
-    public static final List<Double> glicose = Arrays.asList(90.0, 100.0, 125.0);
+    public static final List<Double> glicose = Arrays.asList(100.0, 126.0);
 
     public static abstract class TTPATP {
         public static final List<Double> tp = Arrays.asList(10.0, 14.0);
@@ -68,8 +68,36 @@ public abstract class Indexadores {
     public static final List<Double> ldl = Arrays.asList(50.0, 70.0, 100.0, 130.0, 189.0);
 
     public static abstract class PSA {
-        public static final List<Double> v = Collections.singletonList(4.0);
-        public static final List<Double> mv = Collections.singletonList(4.5);
-        public static final List<Double> mmv = Collections.singletonList(6.5);
+        public static final List<Double> naoIdoso = Collections.singletonList(4.0);
+        public static final List<Double> idoso = Collections.singletonList(4.5);
+        public static final List<Double> idosoRisco = Collections.singletonList(6.5);
+    }
+    
+    public static abstract class VHS {
+    	public static abstract class Homem {
+    		public static final List<Double> naoAdultoRisco = Collections.singletonList(15.0);
+            public static final List<Double> adultoRisco = Collections.singletonList(20.0);
+            public static final List<Double> idosoRiscoElevado = Collections.singletonList(30.0);
+    	}
+    	
+    	public static abstract class Mulher {
+    		public static final List<Double> naoAdultoRisco = Collections.singletonList(20.0);
+            public static final List<Double> adultoRisco = Collections.singletonList(30.0);
+            public static final List<Double> idosoRiscoElevado = Collections.singletonList(42.0);
+    	}
+    }
+    
+    public static abstract class Triglicerideos {
+    	public static abstract class Jejum {
+    		public static final List<Double> menos10 = Collections.singletonList(15.0);
+            public static final List<Double> menos20 = Collections.singletonList(20.0);
+            public static final List<Double> mais20 = Collections.singletonList(30.0);
+    	}
+    	
+    	public static abstract class NaoJejum {
+    		public static final List<Double> menos10 = Collections.singletonList(20.0);
+            public static final List<Double> menos20 = Collections.singletonList(30.0);
+            public static final List<Double> mais20 = Collections.singletonList(42.0);
+    	}
     }
 }

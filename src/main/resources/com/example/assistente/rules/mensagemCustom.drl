@@ -1,0 +1,110 @@
+package com.example.assistente.rules
+dialect "mvel"
+
+import java.time.LocalDate
+import java.time.Period
+
+import com.example.assistente.model.dto.ExamePacienteDTO
+import com.example.assistente.model.dto.PacienteDTO
+import com.example.assistente.model.dto.ResultadoDTO
+import com.example.assistente.drools.model.ExamesDTO
+import com.example.assistente.drools.Indexadores
+import com.example.assistente.drools.model.ResultadosDTO
+import com.example.assistente.model.type.StatusGlicose
+import com.example.assistente.model.type.StatusLDL
+import com.example.assistente.model.type.StatusHDL
+import java.util.Arrays
+
+// glicose
+rule "glicose normal mensagem"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TipoExame.glicose, status == StatusGlicose.normal) from $resultados
+	then
+		System.out.println("mensagem normal " + $resultado.tipoExame);
+		$resultado.mensagem = $resultado.tipoExame.mensagens[0];
+	end
+	
+rule "glicose pre diabetes mensagem"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TipoExame.glicose, status == StatusGlicose.pre_diabetes) from $resultados
+	then
+		System.out.println("mensagem pre diabetes " + $resultado.tipoExame);
+		$resultado.mensagem = $resultado.tipoExame.mensagens[1];
+	end
+	
+rule "glicose diabetes mensagem"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TipoExame.glicose, status == StatusGlicose.diabetes) from $resultados
+	then
+		System.out.println("mensagem diabetes " + $resultado.tipoExame);
+		$resultado.mensagem = $resultado.tipoExame.mensagens[2];
+	end
+	
+// ldl
+rule "ldl ideal mensagem"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TipoExame.ldl, status == StatusLDL.ideal) from $resultados
+	then
+		System.out.println("mensagem ideal " + $resultado.tipoExame);
+		$resultado.mensagem = $resultado.tipoExame.mensagens[0];
+	end
+
+rule "ldl limitrofe mensagem"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TipoExame.ldl, status == StatusLDL.limitrofe) from $resultados
+	then
+		System.out.println("mensagem limitrofe " + $resultado.tipoExame);
+		$resultado.mensagem = $resultado.tipoExame.mensagens[1];
+	end
+	
+rule "ldl alto mensagem"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TipoExame.ldl, status == StatusLDL.alto) from $resultados
+	then
+		System.out.println("mensagem alto " + $resultado.tipoExame);
+		$resultado.mensagem = $resultado.tipoExame.mensagens[2];
+	end
+
+rule "ldl muito alto mensagem"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TipoExame.ldl, status == StatusLDL.muito_alto) from $resultados
+	then
+		System.out.println("mensagem muito alto " + $resultado.tipoExame);
+		$resultado.mensagem = $resultado.tipoExame.mensagens[3];
+	end
+	
+// hdl
+rule "hdl low mensagem"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TipoExame.hdl, status == StatusHDL.abaixo) from $resultados
+	then
+		System.out.println("mensagem low " + $resultado.tipoExame);
+		$resultado.mensagem = $resultado.tipoExame.mensagens[0];
+	end
+	
+rule "hdl bom mensagem"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TipoExame.hdl, status == StatusHDL.bom) from $resultados
+	then
+		System.out.println("mensagem bom " + $resultado.tipoExame);
+		$resultado.mensagem = $resultado.tipoExame.mensagens[1];
+	end
+	
+rule "hdl ideal mensagem"
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TipoExame.hdl, status == StatusHDL.ideal) from $resultados
+	then
+		System.out.println("mensagem ideal " + $resultado.tipoExame);
+		$resultado.mensagem = $resultado.tipoExame.mensagens[1];
+	end
+	

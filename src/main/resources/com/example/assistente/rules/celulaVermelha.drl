@@ -50,7 +50,7 @@ salience 2
 	    ResultadosDTO($resultados: resultados)
 		$resultado: ResultadoDTO(tipoExame == TiposExames.hemacias) from $resultados
 	then
-		System.out.println("hemacia crianca");
+		System.out.println("hemacia homem");
 		$resultado.values = Indexadores.Hemacias.homens;
 	end
 	
@@ -61,7 +61,7 @@ salience 2
 	    ResultadosDTO($resultados: resultados)
 		$resultado: ResultadoDTO(tipoExame == TiposExames.hemacias) from $resultados
 	then
-		System.out.println("hemacia crianca");
+		System.out.println("hemacia mulher");
 		$resultado.values = Indexadores.Hemacias.mulheres;
 	end
 	

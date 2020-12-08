@@ -15,5 +15,50 @@ import com.example.assistente.model.type.Status
 import com.example.assistente.model.type.SexoPaciente
 import java.util.Arrays
 
-//plaquetas
+//psa
+rule "psa"
+salience 3
+	when
+	    ResultadosDTO($resultados: resultados)
+	    ExamesDTO($exames: exames)
+		$exame: ExamePacienteDTO(tipoExame == TiposExames.hemacias) from $exames
+	then
+		System.out.println("psa");
+        $resultados.add(ResultadoDTO.builder()
+            .value($exame.value)
+            .tipoExame($exame.tipoExame)
+            .build());
+	end
+	
+rule "valor psa não idoso"
+salience 2
+	when
+		PacienteDTO(idade < Idade.idoso)
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.psa) from $resultados
+	then
+		System.out.println("psa não idoso");
+		$resultado.values = Indexadores.PSA.naoIdoso;
+	end
 
+rule "valor psa idoso"
+salience 2
+	when
+		PacienteDTO(idade >= Idade.idoso, idade < Idade.idosoRisco)
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.psa) from $resultados
+	then
+		System.out.println("psa idoso");
+		$resultado.values = Indexadores.PSA.idoso;
+	end
+	
+rule "valor psa idoso risco"
+salience 2
+	when
+		PacienteDTO(idade >= Idade.idosoRisco)
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TiposExames.psa) from $resultados
+	then
+		System.out.println("psa idoso risco");
+		$resultado.values = Indexadores.PSA.idosoRisco;
+	end

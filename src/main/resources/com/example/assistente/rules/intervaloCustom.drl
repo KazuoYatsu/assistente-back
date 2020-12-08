@@ -1,0 +1,117 @@
+package com.example.assistente.rules
+dialect "mvel"
+
+import java.time.LocalDate
+import java.time.Period
+
+import com.example.assistente.model.dto.ExamePacienteDTO
+import com.example.assistente.model.dto.PacienteDTO
+import com.example.assistente.model.dto.ResultadoDTO
+import com.example.assistente.drools.model.ExamesDTO
+import com.example.assistente.drools.Indexadores
+import com.example.assistente.drools.model.ResultadosDTO
+import com.example.assistente.model.type.*
+import java.util.Arrays
+
+// glicose
+rule "glicose normal"
+salience 1
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TipoExame.glicose, values != null, value < values[0]) from $resultados
+	then
+		System.out.println("normal " + $resultado.tipoExame);
+		$resultado.status = StatusGlicose.normal;
+	end
+	
+rule "glicose pre diabetes"
+salience 1
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TipoExame.glicose, values != null, value >= values[0], value < values[1]) from $resultados
+	then
+		System.out.println("pre diabetes " + $resultado.tipoExame);
+		$resultado.status = StatusGlicose.pre_diabetes;
+	end
+	
+rule "glicose diabetes"
+salience 1
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TipoExame.glicose, values != null, value >= values[1]) from $resultados
+	then
+		System.out.println("diabetes " + $resultado.tipoExame);
+		$resultado.status = StatusGlicose.diabetes;
+	end
+	
+// ldl
+rule "ldl ideal"
+salience 1
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TipoExame.ldl, values != null, value < values[0]) from $resultados
+	then
+		System.out.println("ideal " + $resultado.tipoExame);
+		$resultado.status = StatusLDL.ideal;
+	end
+
+rule "ldl limitrofe"
+salience 1
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TipoExame.ldl, values != null, value >= values[0], value < values[1]) from $resultados
+	then
+		System.out.println("limitrofe " + $resultado.tipoExame);
+		$resultado.status = StatusLDL.limitrofe;
+	end
+	
+rule "ldl alto"
+salience 1
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TipoExame.ldl, values != null, value >= values[1], value < values[2]) from $resultados
+	then
+		System.out.println("alto " + $resultado.tipoExame);
+		$resultado.status = StatusLDL.alto;
+	end
+
+rule "ldl muito alto"
+salience 1
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TipoExame.ldl, values != null, value >= values[2]) from $resultados
+	then
+		System.out.println("muito alto " + $resultado.tipoExame);
+		$resultado.status = StatusLDL.muito_alto;
+	end
+	
+// hdl
+rule "hdl low"
+salience 1
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TipoExame.hdl, values != null, value < values[0]) from $resultados
+	then
+		System.out.println("low " + $resultado.tipoExame);
+		$resultado.status = StatusHDL.abaixo;
+	end
+	
+rule "hdl bom"
+salience 1
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TipoExame.hdl, values != null, value >= values[0], value < values[1]) from $resultados
+	then
+		System.out.println("bom " + $resultado.tipoExame);
+		$resultado.status = StatusHDL.bom;
+	end
+	
+rule "hdl ideal"
+salience 1
+	when
+	    ResultadosDTO($resultados: resultados)
+		$resultado: ResultadoDTO(tipoExame == TipoExame.hdl, values != null, value >= values[1]) from $resultados
+	then
+		System.out.println("ideal " + $resultado.tipoExame);
+		$resultado.status = StatusHDL.ideal;
+	end

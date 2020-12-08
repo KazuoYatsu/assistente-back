@@ -29,9 +29,8 @@ public enum TiposExames {
 			 "Recomendamos a ida ao médico, o nivel está acima"
 	),
 	bastonete(
-			true, 
+			false, 
 			false,
-			 "Recomendamos a ida ao médico, o nível está abaixo",
 			 "O nível está ideal",
 			 "Recomendamos a ida ao médico, o nivel está acima"
 	),
@@ -57,16 +56,14 @@ public enum TiposExames {
 			 "Recomendamos a ida ao médico, o nivel está acima"
 	),
 	eosinofilos(
-			true, 
+			false, 
 			false,
-			 "Recomendamos a ida ao médico, o nível está abaixo",
 			 "O nível está ideal",
 			 "Recomendamos a ida ao médico, o nivel está acima"
 	),
 	basofilos(
-			true, 
+			false, 
 			false,
-			 "Recomendamos a ida ao médico, o nível está abaixo",
 			 "O nível está ideal",
 			 "Recomendamos a ida ao médico, o nivel está acima"
 	),
@@ -156,13 +153,67 @@ public enum TiposExames {
 			 "Recomendamos a ida ao médico, o nivel está acima"
 			),
 	
-	pcr(false, false),
-	psa(false, false),
-	vhs(false, false),
-	glicose(false, false),
-	hdl(false, true),
-	ldl(false, false),
-	triglicerideos(false, false);
+	pcr(
+			false,
+			false,
+			"O nível de PCR está dentro do intervalo",
+			"O PCR está alto, é possivel que haja algum processo de infecção"
+			),
+	
+	psa(
+			false, 
+			false,
+			"O nível de PSA está dentro do intervalo",
+			"O PSA está alto, é recomendado ida ao urologista para avaliar se alteração de PSA é por causa benigna ou maligna"
+			),
+	
+	vhs(
+			false, 
+			false,
+			"O nível de VHS está dentro do intervalo",
+			"O VHS está alto, é exigido atenção para algum processo infeccioso"
+			),
+	
+	triglicerideos(
+			false, 
+			false,
+			"O nível de triglicerídeos está dentro do intervalo",
+			"Os triglicerideos estão elevados, a longo prazo podem causar doenças. Niveis elevados de triglicerideos podem ser causados também por diabete."
+			),
+	
+	glicose(
+			false, 
+			false,
+			true,
+			"O nível de glicose está normal.",
+			"O nível de glicose é condizente com pé diabetes, é necessário o controle da injestão de caboidratos e alcool.",
+			"Caso seja a segunda vez que esteja obtendo este resultado, o paciente é caracteriado como diabético, sua dieta e tramento devem ser iniciadas."
+			),
+	
+	hdl(
+			false, 
+			true,
+			true,
+			"O nível de HDL está baixo, é recomendado a injestão de peixes de águas profundas, azeite extra virgem, abacate, sementes como linhaça e chia, castanhas..."
+			+ "Deve ser evitado o consumo de açucar refinado, frituras em excesso, carboidratos em excesso, gorduras trans e embutidos.",
+			"O nível de colesterol está bom, porém pode melhorar com o consumo de peixes de águas profundas, azeite extra virgem, abacate, sementes como linhaça e chia, castanhas...",
+			"O nível de colesterol está ideal."
+			),
+	
+	ldl(
+			false, 
+			false,
+			true,
+			"O colesterol LDL está ótimo",
+			"O colesterol LDL está dentro do classificado como desejável",
+			"O colesterol LDL está dentro do classificado como limítrofe, é recomendada a redução e açucar e frituras e introdução de algum nível de atividade física",
+			"O colesterol LDL está dentro do classificado como alto, é necessária a introdução de algum nível de atividade fisica na rotina, readequação da dieta "
+			+ "substituindo açúcar por adoçantes, removendo frituras da dieta, regulando a quatidade de sal e injerindo a quantidade adequada de água até "
+			+ "a consulta com um nutricionista para acompanhamento.",
+			"O colesterol LDL está muito elevado, é necessário com urgência introdução de algum nível de atividade fisica na rotina, readequação da dieta "
+			+ "substituindo açúcar por adoçantes, removendo frituras da dieta, regulando a quatidade de sal e injerindo a quantidade adequada de água até "
+			+ "a consulta com um nutricionista para acompanhamento."
+			);
 	
 	
 	private final boolean intervalo;

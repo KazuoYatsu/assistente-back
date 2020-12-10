@@ -31,22 +31,6 @@ salience 3
             .build());
 	end
 	
-// inrTp
-rule "inrTp"
-salience 3
-	when
-	    ResultadosDTO($resultados: resultados)
-	    ExamesDTO($exames: exames)
-		$exame: ExamePacienteDTO(tipoExame == TiposExames.inrTp) from $exames
-	then
-		System.out.println("inrTp");
-        $resultados.add(ResultadoDTO.builder()
-            .value($exame.value)
-            .values(Indexadores.TTPATP.inrTp)
-            .tipoExame($exame.tipoExame)
-            .build());
-	end
-	
 // ttpa
 rule "ttpa"
 salience 3

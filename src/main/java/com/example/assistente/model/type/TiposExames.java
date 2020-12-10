@@ -79,24 +79,16 @@ public enum TiposExames {
 	ttpa(
 			true,
 			false,
-			"Recomendamos a ida ao médico, o nível está abaixo",
+			"O tempo de coagulação está abaixo, pode ser ralacionado ao uso de contraceptivos, reposição hormonal ou excesso de vitamina K, é recomentada ida ao médico",
 			 "O nível está ideal",
-			 "Recomendamos a ida ao médico, o nivel está acima"
+			 "O tempo de coagulação está alto, pode ser ralacionado ao uso de anti coagulantes, doenças hepaticas ou deficiencia de vitamina K, é recomentada ida ao médico"
 			),
 	tp(
 			true,
 			false,
-			"Recomendamos a ida ao médico, o nível está abaixo",
+			"O tempo de coagulação está abaixo, pode ser ralacionado ao uso de contraceptivos, reposição hormonal ou excesso de vitamina K, é recomentada ida ao médico",
 			 "O nível está ideal",
-			 "Recomendamos a ida ao médico, o nivel está acima"
-			),
-	
-	inrTp(
-			true,
-			false,
-			"Recomendamos a ida ao médico, o nível está abaixo",
-			 "O nível está ideal",
-			 "Recomendamos a ida ao médico, o nivel está acima"
+			 "O tempo de coagulação está alto, pode ser ralacionado ao uso de anti coagulantes, doenças hepaticas ou deficiencia de vitamina K, é recomentada ida ao médico"
 			),
 	
 	ureia_creatinina(
@@ -110,31 +102,32 @@ public enum TiposExames {
 	tgp(
 			true, 
 			false,
-			"Recomendamos a ida ao médico, o nível está abaixo",
+			"Recomendamos a ida ao médico, o nível está abaixo, pode ser devido a alterações no fígado, causado por alguma hepatite cirrose ou presença de gordura no fígado",
 			 "O nível está ideal",
-			 "Recomendamos a ida ao médico, o nivel está acima"
+			 "Recomendamos a ida ao médico, o nível está acima, pode ser devido a alterações no fígado, causado por alguma hepatite cirrose ou presença de gordura no fígado"
 			),
 	tgo(
 			true, 
 			false,
-			"Recomendamos a ida ao médico, o nível está abaixo",
+			"Recomendamos a ida ao médico, o nível está abaixo, pode ser devido a alterações no fígado e coração, causado por alguma hepatite cirrose ou presença de gordura no fígado",
 			 "O nível está ideal",
-			 "Recomendamos a ida ao médico, o nivel está acima"
+			 "Recomendamos a ida ao médico, o nível está acima, pode ser devido a alterações no fígado e coração, causado por alguma hepatite cirrose ou presença de gordura no fígado"
 			),
+	
 	tsh(
 			true, 
 			false,
-			"Recomendamos a ida ao médico, o nível está abaixo",
+			"Recomendamos a ida ao médico, o nível está abaixo, pode significar mau funcionamento da tireóide",
 			 "O nível está ideal",
-			 "Recomendamos a ida ao médico, o nivel está acima"
+			 "Recomendamos a ida ao médico, o nível está abaixo, pode significar mau funcionamento da tireóide"
 			),
 	
 	t4_livre(
 			true, 
 			false,
-			"Recomendamos a ida ao médico, o nível está abaixo",
+			"Recomendamos a ida ao médico, o nível está abaixo, pode significar mau funcionamento da tireóide",
 			 "O nível está ideal",
-			 "Recomendamos a ida ao médico, o nivel está acima"
+			 "Recomendamos a ida ao médico, o nível está abaixo, pode significar mau funcionamento da tireóide"
 			),
 	
 	acido_urico(
@@ -148,9 +141,9 @@ public enum TiposExames {
 	albumina(
 			true, 
 			false,
-			"Recomendamos a ida ao médico, o nível está abaixo",
+			"O nível está abaixo, é recomendada a ida ao médico, existe a possibilidade de problemas renais ou no figado",
 			 "O nível está ideal",
-			 "Recomendamos a ida ao médico, o nivel está acima"
+			 "O nível está alto, é recomendada a ida ao médico, possivel desitratação, existe a possibilidade de problemas renaisno figado"
 			),
 	
 	pcr(

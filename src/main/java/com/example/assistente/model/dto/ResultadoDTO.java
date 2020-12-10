@@ -12,10 +12,16 @@ import java.util.List;
 @AllArgsConstructor
 public class ResultadoDTO {
     private TiposExames tipoExame;
-    private String mensagem;
+	private String mensagem;
     private List<Double> values;
     private Enum status;
     private double value;
     private boolean maiorMelhor;
     private boolean intervalo;
+    
+    public TiposExames getTipoExame() {
+		this.maiorMelhor = tipoExame.isMaiorMelhor();
+		this.intervalo = tipoExame.isIntervalo();
+		return this.tipoExame;
+	}
 }

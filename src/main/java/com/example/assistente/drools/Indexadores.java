@@ -55,7 +55,6 @@ public abstract class Indexadores {
 
     public static abstract class TTPATP {
         public static final List<Double> tp = Arrays.asList(10.0, 14.0);
-        public static final List<Double> inrTp = Arrays.asList(0.8, 1.0);
         public static final List<Double> ttpa = Arrays.asList(24.0, 40.0);
     }
 
